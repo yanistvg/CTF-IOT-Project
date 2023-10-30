@@ -10,13 +10,18 @@ Cette raspberry utilise un module camera pour lui permettre de transmettre le fl
 
 Il faut créer un utilisateur `user` avec un mot de passe qui n'est pas important (Le mot de passe va être changé par le script). Pour faire l'installation de cette machine il est conseiller de flasher une carte SD pour avoir une machine qui n'a aucun élements. Il faut aussi que la machine soit connecter à un réseau internet fonctionnel. La raspberry utilisé ne dispose pas du WIFI, il faut donc le connecter en filaire. La configuration réseau serat modifier pour pouvoir être intégrer dans le réseau final, donc elle n'aurat plus accès à internet.
 
-Le repos git serat cloné depuis internet, vous pouvez simplement copier le scipt `auto-config.sh` sur la machine pour l'exécuter.
+Avant de commancer la mis en place par le script, il faut activer le module camera:
+```sh
+raspi-config
+	# what user should these settings apply to? -> user
+	# Interface Options > Legacy Camera > <Yes> > <Ok>
+	# une fois terminer appuyer sur echap
+```
 
 Pour mettre en place l'environnement de cette raspberry, il faut utiliser le script en temps que root disponible dans ce répertoir :
 
 ```sh
 sh auto-config.sh
-reboot
 ```
 
 Le script va utiliser les source de ce repos pour les mettres en place sur le raspberry, et rendre disponible cette machine.
