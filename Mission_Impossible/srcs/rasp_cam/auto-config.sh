@@ -60,6 +60,10 @@ cmd_generate_error "Mise a jour du systeme" "true" "true"
 /usr/bin/apt install -y motion > /dev/null
 cmd_generate_error "Installation de Motion" "true" "true"
 
+# rendre le module camera compatible avec motion
+/usr/sbin/modprobe bcm2835-v4l2
+/usr/bin/echo "bcm2835-v4l2" | /usr/bin/tee -a /etc/modules
+
 # dossier pour les logs de motion
 /usr/bin/mkdir /home/motion > /dev/null
 cmd_generate_error "Creation d'un repertoire pour les logs motion" "true" "true"
@@ -93,6 +97,13 @@ systemctl start motion > /dev/null
 /usr/bin/cmd_generate_error "Changement du mot de passe root" "true" "false"
 /usr/bin/echo "$userpwd\n$userpwd\n" | /usr/bin/passwd user
 /usr/bin/cmd_generate_error "Changement du mot de passe user" "true" "false"
+
+
+##
+### TODO:
+###   Configurer le reseau pour etre compatible avec la borne
+###   wifi.
+##
 
 # redemarrage du systeme
 # /usr/sbin/reboot
