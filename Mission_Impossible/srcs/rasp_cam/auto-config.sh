@@ -24,7 +24,7 @@ cl_df="\033[0;m"
 #
 # ex : cmd_generate_error "mise a jour du systeme" "true" "true"
 cmd_generate_error() {
-	if [ $? = 0 ]
+	if [ $? != 0 ]
 	then
 		/usr/bin/echo -e "[$cl_red-$cl_df]$cl_red ERROR$cl_df during : $1"
 		if [ $3 = "true" ]
@@ -44,8 +44,9 @@ cmd_generate_error() {
 ##
 
 /usr/bin/apt update -y > /dev/null
+cmd_generate_error "update du systeme" "true" "true"
 /usr/bin/apt upgrade -y > /dev/null
-cmd_generate_error "Mise a jour du systeme" "true" "true"
+cmd_generate_error "upgrade du systeme" "true" "true"
 
 ##
 ### Faire la configuration de la camera
@@ -62,7 +63,9 @@ cmd_generate_error "Installation de Motion" "true" "true"
 
 # rendre le module camera compatible avec motion
 /usr/sbin/modprobe bcm2835-v4l2
+cmd_generate_error "activation du modprobe bcm2835-v4l2" "true" "false"
 /usr/bin/echo "bcm2835-v4l2" | /usr/bin/tee -a /etc/modules
+cmd_generate_error "activation au demarrage du modprobe bcm2835-v4l2" "true" "false"
 
 # dossier pour les logs de motion
 /usr/bin/mkdir /home/motion > /dev/null
@@ -89,7 +92,7 @@ cmd_generate_error "Activation de motion au demarrage" "true" "false"
 systemctl start motion > /dev/null
 cmd_generate_error "Demarrage de motion" "true" "false"
 
-/usr/bin/sed -i "s/exit 0/\/usr\/bin\/motion\nexit 0/" /etc/rc.local
+/usr/bin/sed -i "s/# By default this script does nothing./motion/" /etc/rc.local
 cmd_generate_error "Edition de rc.local" "true" "false"
 
 # changement des mots de passe des utilisateurs
