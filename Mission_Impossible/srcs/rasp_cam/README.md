@@ -21,6 +21,11 @@ raspi-config
 Pour mettre en place l'environnement de cette raspberry, il faut utiliser le script en temps que root disponible dans ce répertoir :
 
 ```sh
+apt update -y
+apt install -y git
+cd /tmp/
+git clone https://github.com/yanistvg/CTF-IOT-Project.git
+cd CTF-IOT-Project/Mission_Impossible/srcs/rasp_cam
 sh auto-config.sh
 ```
 

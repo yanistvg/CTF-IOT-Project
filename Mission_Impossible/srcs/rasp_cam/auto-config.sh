@@ -24,17 +24,17 @@ cl_df="\033[0;m"
 #
 # ex : cmd_generate_error "mise a jour du systeme" "true" "true"
 cmd_generate_error() {
-	if [ $? == 0 ]
+	if [ $? = 0 ]
 	then
-		/usr/bin/echo "[$cl_red-$cl_df]$cl_red ERROR$cl_df during : $1"
-		if [ $3 == "true" ]
+		/usr/bin/echo -e "[$cl_red-$cl_df]$cl_red ERROR$cl_df during : $1"
+		if [ $3 = "true" ]
 		then
 			exit
 		fi
 	else
-		if [ $2 == "true" ]
+		if [ $2 = "true" ]
 		then
-			/usr/bin/echo "[$cl_green+$cl_df]$cl_green OK$cl_df during : $1"
+			/usr/bin/echo -e "[$cl_green+$cl_df]$cl_green OK$cl_df during : $1"
 		fi
 	fi
 }
@@ -87,17 +87,16 @@ cmd_generate_error "Configuration Motion: stream_localhost" "true" "false"
 /usr/bin/systemctl enable motion > /dev/null
 cmd_generate_error "Activation de motion au demarrage" "true" "false"
 systemctl start motion > /dev/null
-/usr/bin/cmd_generate_error "Demarrage de motion" "true" "false"
+cmd_generate_error "Demarrage de motion" "true" "false"
 
 /usr/bin/sed -i "s/exit 0/\/usr\/bin\/motion\nexit 0/" /etc/rc.local
-/usr/bin/cmd_generate_error "Edition de rc.local" "true" "false"
+cmd_generate_error "Edition de rc.local" "true" "false"
 
 # changement des mots de passe des utilisateurs
-/usr/bin/echo "$rootpwd\n$rootpwd\n" | /usr/bin/passwd root
-/usr/bin/cmd_generate_error "Changement du mot de passe root" "true" "false"
-/usr/bin/echo "$userpwd\n$userpwd\n" | /usr/bin/passwd user
-/usr/bin/cmd_generate_error "Changement du mot de passe user" "true" "false"
-
+/usr/bin/echo -e "$rootpwd\n$rootpwd\n" | /usr/bin/passwd root
+cmd_generate_error "Changement du mot de passe root" "true" "false"
+/usr/bin/echo -e "$userpwd\n$userpwd\n" | /usr/bin/passwd user
+cmd_generate_error "Changement du mot de passe user" "true" "false"
 
 ##
 ### TODO:
