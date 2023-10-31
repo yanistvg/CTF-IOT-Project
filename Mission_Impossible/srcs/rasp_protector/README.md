@@ -14,6 +14,8 @@ Le repos git serat cloné depuis internet, vous pouvez simplement copier le scip
 
 Pour mettre en place l'environnement de cette raspberry, il faut utiliser le script dans ce répertoir de manière :
 
+***L'installation d'opencv pour python sur raspberry PI peux prendre beacoup de temps***
+
 ```sh
 sh auto-config.sh
 reboot

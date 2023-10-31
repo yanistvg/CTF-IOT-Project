@@ -47,3 +47,7 @@ cmd_generate_error() {
 apt update -y > /dev/null
 apt upgrade -y > /dev/null
 
+apt install -y python3-pip > /dev/null
+
+pip3 install -r protect_door/requirements.txt # installation de opencv qui prend beacoup de temps
+
