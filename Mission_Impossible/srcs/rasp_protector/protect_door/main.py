@@ -29,16 +29,20 @@ TÂCHES À RÉALISER :
 import cv2
 from lib.imageReceiver.imageReceiver import ImageReceiver
 from lib.humanDetector.humanDetector import HumanDetector
+from lib.ledIndicator.ledIndicator import LedIndicator
 from time import sleep
 
 def main():
 	image_receiver = ImageReceiver("http://172.10.4.27:8081")
 	human_detector = HumanDetector()
+	indicator = LedIndicator()
 
 	while True:
 		image = image_receiver.get_image()
 		if human_detector.identify_human(image):
-			print("Human found")
+			indicator.alert_presence()
+		else:
+			indicator.alert_none()
 		sleep(1)
 
 if __name__ == "__main__":
