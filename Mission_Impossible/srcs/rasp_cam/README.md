@@ -31,6 +31,15 @@ sh auto-config.sh
 
 Le script va utiliser les source de ce repos pour les mettres en place sur le raspberry, et rendre disponible cette machine.
 
+***Si lors du démarrage le stream vidéo n'est pas disponible vous pouvez executer les commandes suivante pour le rectifier***
+
+```sh
+systemctl enable motion.service
+pkill motion
+systemctl start motion.service
+motion
+```
+
 ## Mot de passe de la machine
 
 Le script va changer les mot de passe des utilisateur de la machine, les mots de passe qui seront mis sont définie ci-dessous

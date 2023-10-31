@@ -87,13 +87,15 @@ cmd_generate_error "Configuration Motion: daemon webcontrol_localhost" "true" "f
 cmd_generate_error "Configuration Motion: stream_localhost" "true" "false"
 
 # demarrage de motion et rendre percistant au demarrage
-/usr/bin/systemctl enable motion > /dev/null
+/usr/bin/systemctl enable motion.service
 cmd_generate_error "Activation de motion au demarrage" "true" "false"
-systemctl start motion > /dev/null
+/usr/bin/systemctl start motion.service
 cmd_generate_error "Demarrage de motion" "true" "false"
 
 /usr/bin/sed -i "s/# By default this script does nothing./motion/" /etc/rc.local
 cmd_generate_error "Edition de rc.local" "true" "false"
+
+motion
 
 # changement des mots de passe des utilisateurs
 /usr/bin/echo -e "$rootpwd\n$rootpwd\n" | /usr/bin/passwd root
