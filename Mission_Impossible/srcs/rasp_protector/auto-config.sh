@@ -47,7 +47,32 @@ cmd_generate_error() {
 apt update -y > /dev/null
 apt upgrade -y > /dev/null
 
-apt install -y python3-pip > /dev/null
+#
+## installation de opencv pour raspberry PI
+#
+apt install -y cmake python3-pip > /dev/null
+wget -O /tmp/opencv.zip https://github.com/opencv/opencv/archive/4.0.0.zip > /dev/null
+wget -O /tmp/opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.0.0.zip > /dev/null
 
-pip3 install -r protect_door/requirements.txt # installation de opencv qui prend beacoup de temps
+unzip /tmp/opencv.zip > /dev/null
+unzip /tmp/opencv_contrib.zip > /dev/null
+
+pip3 install numpy
+
+cd ~/opencv-4.0.0/
+mkdir build
+cd build
+cmake -D CMAKE_BUILD_TYPE=RELEASE                                 \
+      -D CMAKE_INSTALL_PREFIX=/usr/local                          \
+      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-4.0.0/modules \
+      -D ENABLE_NEON=ON                                           \
+      -D ENABLE_VFPV3=ON                                          \
+      -D BUILD_TESTS=OFF                                          \
+      -D WITH_TBB=OFF                                             \
+      -D INSTALL_PYTHON_EXAMPLES=OFF                              \
+      -D BUILD_EXAMPLES=OFF ..
+
+Make -j4
+
+pip3 install opencv-contrib-python
 

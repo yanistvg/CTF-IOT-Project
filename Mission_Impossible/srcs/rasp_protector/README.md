@@ -6,7 +6,7 @@ Cette partie permet de faire la mis en place d'une raspberry PI qui va utiliser 
 
 ## Mise en place de l'environnement
 
-***Pour cette partie, nous disposions d'une raspberry PI B+, avec l'OS `Raspberry PI OS (Legacy) Lite`***
+***Pour cette partie, nous disposions d'une raspberry PI 4 B, avec l'OS `Raspberry PI OS (Legacy) Lite`***
 
 Il faut créer un utilisateur `user` avec un mot de passe qui n'est pas important (Le mot de passe va être changé par le script). Pour faire l'installation de cette machine il est conseiller de flasher une carte SD pour avoir une machine qui n'a aucun élements. Il faut aussi que la machine soit connecter à un réseau internet fonctionnel. Il est conseillé de la connecter en filaire. La configuration réseau serat modifier pour pouvoir être intégrer dans le réseau final, donc elle n'aurat plus accès à internet.
 
