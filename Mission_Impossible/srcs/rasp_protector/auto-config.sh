@@ -50,29 +50,11 @@ apt upgrade -y > /dev/null
 #
 ## installation de opencv pour raspberry PI
 #
-apt install -y cmake python3-pip > /dev/null
-wget -O /tmp/opencv.zip https://github.com/opencv/opencv/archive/4.0.0.zip > /dev/null
-wget -O /tmp/opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.0.0.zip > /dev/null
+apt install -y python3-pip > /dev/null
 
-unzip /tmp/opencv.zip > /dev/null
-unzip /tmp/opencv_contrib.zip > /dev/null
+sudo apt-get install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev libhdf5-103 python3-pyqt5 python3-dev -y
 
-pip3 install numpy
-
-cd ~/opencv-4.0.0/
-mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE                                 \
-      -D CMAKE_INSTALL_PREFIX=/usr/local                          \
-      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-4.0.0/modules \
-      -D ENABLE_NEON=ON                                           \
-      -D ENABLE_VFPV3=ON                                          \
-      -D BUILD_TESTS=OFF                                          \
-      -D WITH_TBB=OFF                                             \
-      -D INSTALL_PYTHON_EXAMPLES=OFF                              \
-      -D BUILD_EXAMPLES=OFF ..
-
-Make -j4
-
-pip3 install opencv-contrib-python
+pip3 install numpy==1.19.3
+pip3 install opencv-python==4.5.3.56
+apt install -y python3-opencv
 
