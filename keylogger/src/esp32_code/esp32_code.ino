@@ -43,4 +43,3 @@ void loop() {
     Serial1.print(c);
   }
 }
-
