@@ -20,8 +20,8 @@ void keyPressed() {
       to_send = keymaps[int(ch)];
   }
 
-  Serial1.write(to_send[0]);
-  Serial.write(to_send[0]);
+  for(int i=0; i<to_send.length(); i++)
+    Serial1.write(to_send[i]);
 }
 
 void keyReleased() {
@@ -29,8 +29,8 @@ void keyReleased() {
 
 void setup() {
   delay(200);
-  Serial1.begin(9600);
-  Serial.begin(9600);
+  Serial1.begin(115200);
+  Serial1.setTimeout(50);
 }
 
 void loop() {

@@ -11,7 +11,8 @@ const char *password = "Azerty1234";
 WiFiServer server(9999);
 
 void setup() {
-  Serial1.begin(9600, SERIAL_8N1, RXD1, TXD1);
+  Serial1.begin(115200, SERIAL_8N1, RXD1, TXD1);
+  Serial1.setTimeout(50);
 
   if (!WiFi.softAP(ssid, password)) {
     log_e("Soft AP creation failed.");
@@ -27,19 +28,25 @@ void loop() {
   if (client) {
     while (client.connected()) {
       if (client.available()) { // attend que le client envoye un caractere
-        char c = client.read();
-        Serial1.print(c);
+        String c = client.readString();
+        for(int i=0; i<c.length(); i++) {
+          Serial1.write(c[i]);
+        }
       }
       if (Serial1.available()) {
-        char c = Serial1.read();
-        client.print(c);
-        Serial1.print(c);
+        String c = Serial1.readString();
+        for(int i=0; i<c.length(); i++) {
+          client.write(c[i]);
+          Serial1.write(c[i]);
+        }
       }
     }
     client.stop();
   }
   if (Serial1.available()) {
-    char c = Serial1.read();
-    Serial1.print(c);
+    String c = Serial1.readString();
+    for(int i=0; i<c.length(); i++) {
+      Serial1.write(c[i]);
+    }
   }
 }

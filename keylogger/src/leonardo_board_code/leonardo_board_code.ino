@@ -1,17 +1,20 @@
 #include <Keyboard.h>
 
 void setup() {
-  Serial1.begin(9600);
+  Serial.begin(115200);
+  Serial1.begin(115200);
+  Serial1.setTimeout(50);
   Keyboard.begin(KeyboardLayout_fr_FR);
 }
 
 void loop() {
-  char c = 0x00;
+  String c = "";
 
   if (Serial1.available() > 0) {
-    c = Serial1.read();
-    if (c != 0x0A && c != 0x0D && c != 0x00) {
-      Keyboard.write(c);
+    c = Serial1.readString();
+    for(int i=0; i<c.length(); i++) {
+      Serial.write(c[i]);
+      Keyboard.write(c[i]);
     }
   }
 }
