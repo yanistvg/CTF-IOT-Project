@@ -8,7 +8,7 @@ que le verroue est actif.
 
 TODO :
 	- Paramettrer les GPIO  . . . . . . . . . . . . . . . . . . Done
-	- allumer les GPIO en fonction de l'erreur déclanché  . . . X
+	- allumer les GPIO en fonction de l'erreur déclanché  . . . Done
 	- Erreur critique, creer un verroue . . . . . . . . . . . . X
 	- Enlever le verroue lorsqu'il n'y a pas d'erreur . . . . . X
 
@@ -23,17 +23,17 @@ import subprocess
 class LedIndicator():
 	
 	def __init__(self) -> None:
-		self.gpio = ["no_presence": 33, "net_error": 35, "human_detected": 37]
+		self.gpio = {"no_presence": 33, "net_error": 35, "human_detected": 37}
 		self.lock = False
 		io.cleanup()
 		io.setmode(io.BOARD)
 
 		# animation de demarrage
-		for i in gpio:
+		for i in self.gpio:
 			io.setup(self.gpio[i], io.OUT)
 			io.output(self.gpio[i], 1)
 			sleep(0.5)
-		for i in gpio:
+		for i in self.gpio:
 			io.setup(self.gpio[i], io.OUT)
 			io.output(self.gpio[i], 0)
 			sleep(0.5)
@@ -74,8 +74,10 @@ class LedIndicator():
 		self.locked_door(True)
 
 	def locked_door(self, level_alert: bool) -> None:
-		match level_alert:
-			case True:
-				subprocess.call("rm /tmp/protected_door.lock")
-			case False:
+		try:
+			if level_alert:
 				subprocess.call("touch /tmp/protected_door.lock")
+			else:
+				subprocess.call("rm /tmp/protected_door.lock")
+		except:
+			pass

@@ -43,6 +43,10 @@ cmd_generate_error() {
 ##
 ## Debut de la mis en place
 ##
+apt purge wolfram-engine
+apt purge libreoffice*
+apt clean
+apt autoremove
 
 apt update -y > /dev/null
 apt upgrade -y > /dev/null
@@ -50,11 +54,17 @@ apt upgrade -y > /dev/null
 #
 ## installation de opencv pour raspberry PI
 #
+
+# Installation des outils pour opencv
+apt install -y build-essential cmake unzip pkg-config
+apt install -y libjpeg-dev libpng-dev libtiff-dev
+apt install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+apt install -y libxvidcore-dev libx264-dev
+apt install -y libgtk-3-dev
+apt install -y libcanberra-gtk*
+apt install -y libatlas-base-dev gfortran
 apt install -y python3-pip > /dev/null
 
-sudo apt-get install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev libhdf5-103 python3-pyqt5 python3-dev -y
-
-pip3 install numpy==1.19.3
-pip3 install opencv-python==4.5.3.56
+# installation d'opencv
 apt install -y python3-opencv
 
