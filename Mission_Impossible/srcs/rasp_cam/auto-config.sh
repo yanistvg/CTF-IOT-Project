@@ -104,10 +104,17 @@ cmd_generate_error "Changement du mot de passe root" "true" "false"
 cmd_generate_error "Changement du mot de passe user" "true" "false"
 
 ##
-### TODO:
-###   Configurer le reseau pour etre compatible avec la borne
-###   wifi.
+### Configurer le reseau pour etre compatible avec la borne
+### wifi.
 ##
+/usr/bin/echo "" >> /etc/network/interfaces
+/usr/bin/echo -e "auto eth0" >> /etc/network/interfaces
+/usr/bin/echo -e "iface eth0 inet static" >> /etc/network/interfaces
+/usr/bin/echo -e "	address 192.168.1.2" >> /etc/network/interfaces
+/usr/bin/echo -e "	netmask 255.255.255.248" >> /etc/network/interfaces
+/usr/bin/echo -e "	gateway 192.168.1.1" >> /etc/network/interfaces
+
+/usr/bin/systemctl restart networking.service
 
 # redemarrage du systeme
-# /usr/sbin/reboot
+/usr/sbin/reboot
