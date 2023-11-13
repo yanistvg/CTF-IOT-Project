@@ -76,8 +76,8 @@ class LedIndicator():
 	def locked_door(self, level_alert: bool) -> None:
 		try:
 			if level_alert:
-				subprocess.call("touch /tmp/protected_door.lock")
+				subprocess.call(["touch", "/tmp/protected_door.lock"], shell=True)
 			else:
-				subprocess.call("rm /tmp/protected_door.lock")
+				subprocess.call(["rm", "/tmp/protected_door.lock"], shell=True)
 		except:
 			pass

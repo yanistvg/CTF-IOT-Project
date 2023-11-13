@@ -16,7 +16,7 @@ TÂCHES À RÉALISER :
 	- Capturer les images transmises par le flux de la caméra . . . . . . . Done
 	- Détecter la présence de personnes sur les images  . . . . . . . . . . Done
 	- Interagir avec les broches GPIO de la Raspberry Pi pour
-	  déclencher un signal sonore et visuel en cas de détection . . . . . . X
+	  déclencher un signal sonore et visuel en cas de détection . . . . . . Done
 	- Enregistrer les personnes détectées pour éventuellement
 	  compiler les détections (optionnel) . . . . . . . . . . . . . . . . . X
 	- Mettre en place un mécanisme de verrouillage et de déverrouillage . . X

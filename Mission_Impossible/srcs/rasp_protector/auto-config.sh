@@ -43,28 +43,61 @@ cmd_generate_error() {
 ##
 ## Debut de la mis en place
 ##
-apt purge wolfram-engine
-apt purge libreoffice*
-apt clean
-apt autoremove
+apt purge wolfram-engine -y >/dev/null
+cmd_generate_error "Delation of wolfram-engine" "true" "false"
+apt purge libreoffice* -y >/dev/null
+cmd_generate_error "Delation of libreoffice" "true" "false"
+apt clean -y >/dev/null
+cmd_generate_error "apt clean" "true" "false"
+apt autoremove -y >/dev/null
+cmd_generate_error "apt autoremove" "true" "false"
 
 apt update -y > /dev/null
+cmd_generate_error "During update" "true" "true"
 apt upgrade -y > /dev/null
+cmd_generate_error "During upgrade" "true" "true"
 
 #
 ## installation de opencv pour raspberry PI
 #
 
 # Installation des outils pour opencv
-apt install -y build-essential cmake unzip pkg-config
-apt install -y libjpeg-dev libpng-dev libtiff-dev
-apt install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
-apt install -y libxvidcore-dev libx264-dev
-apt install -y libgtk-3-dev
-apt install -y libcanberra-gtk*
-apt install -y libatlas-base-dev gfortran
+apt install -y build-essential cmake unzip pkg-config >/dev/null
+cmd_generate_error "During install build-essential, cmake, unzip, pkg-config" "true" "true"
+apt install -y libjpeg-dev libpng-dev libtiff-dev >/dev/null
+cmd_generate_error "During install libjpeg-dev, libpng-dev, libtiff-dev" "true" "true"
+apt install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev >/dev/null
+cmd_generate_error "During install libavcodec-dev, libavformat-dev, libswscale-dev, libv4l-dev" "true" "true"
+apt install -y libxvidcore-dev libx264-dev >/dev/null
+cmd_generate_error "During install libxvidcore-dev, libx264-dev" "true" "true"
+apt install -y libgtk-3-dev >/dev/null
+cmd_generate_error "During install libgtk-3-dev" "true" "true"
+apt install -y libcanberra-gtk* >/dev/null
+cmd_generate_error "During install libcanberra-gtk" "true" "true"
+apt install -y libatlas-base-dev gfortran >/dev/null
+cmd_generate_error "During install libatlas-base-dev, gfortran" "true" "true"
 apt install -y python3-pip > /dev/null
+cmd_generate_error "During install python3-pip" "true" "true"
 
 # installation d'opencv
 apt install -y python3-opencv
+cmd_generate_error "During installation of Opencv for python" "true" "true"
+
+
+##
+### configuration reseau
+##
+
+echo -e "" >> /etc/network/interfaces
+echo -e "allow-hotplug wlan0" >> /etc/network/interfaces
+echo -e "iface wlan0 inet static" >> /etc/network/interfaces
+echo -e "	address 192.168.1.3" >> /etc/network/interfaces
+echo -e "	netmask 255.255.255.248" >> /etc/network/interfaces
+echo -e "	gateway 192.168.1.1" >> /etc/network/interfaces
+echo -e "wpa-ssid CTF-IOT-2SU" >> /etc/network/interfaces
+echo -e "wpa-psk 9f5d38db9f0533b94deb6ccc3af0330fa05a1ea49ee154593492af5af2b64e86" >> /etc/network/interfaces
+
+systemctl restart networking.service > /dev/null
+cmd_generate_error "During network configuration" "true" "false"
+
 
