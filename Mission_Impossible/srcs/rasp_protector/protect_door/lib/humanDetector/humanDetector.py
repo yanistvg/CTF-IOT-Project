@@ -21,9 +21,9 @@ import cv2
 
 class HumanDetector:
 	def __init__(self):
-		self.fullBody_cascade = cv2.CascadeClassifier('lib/humanDetector/haarcascade_fullbody.xml')
-		self.face_cascade = cv2.CascadeClassifier('lib/humanDetector/haarcascade_profileface.xml')
-		self.upperBody_cascade = cv2.CascadeClassifier('lib/humanDetector/haarcascade_upperbody.xml')
+		self.fullBody_cascade = cv2.CascadeClassifier('/root/protect_door/lib/humanDetector/haarcascade_fullbody.xml')
+		self.face_cascade = cv2.CascadeClassifier('/root/protect_door/lib/humanDetector/haarcascade_profileface.xml')
+		self.upperBody_cascade = cv2.CascadeClassifier('/root/protect_door/lib/humanDetector/haarcascade_upperbody.xml')
 
 	def identify_human(self, image) -> bool:
 		idenfity = False

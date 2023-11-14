@@ -34,11 +34,11 @@ from lib.ledIndicator.ledIndicator import LedIndicator
 from time import sleep
 
 def main():
-	image_receiver = ImageReceiver("http://192.168.1.2:8081")
 	human_detector = HumanDetector()
 	indicator = LedIndicator()
 
 	while True:
+		image_receiver = ImageReceiver("http://192.168.1.2:8081")
 		try:
 			image = image_receiver.get_image()
 			if human_detector.identify_human(image):
@@ -47,6 +47,7 @@ def main():
 				indicator.alert_none()
 		except:
 			indicator.alert_network()
+		image_receiver = None
 
 if __name__ == "__main__":
 	main()

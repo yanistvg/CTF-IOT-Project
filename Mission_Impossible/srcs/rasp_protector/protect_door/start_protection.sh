@@ -1,3 +1,3 @@
-#!/usb/bin/bash
+#!/usr/bin/bash
 
 python3 /root/protect_door/main.py &

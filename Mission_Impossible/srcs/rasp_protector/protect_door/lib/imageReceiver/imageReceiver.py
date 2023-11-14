@@ -28,7 +28,7 @@ class ImageReceiver:
 
 	def get_image(self) -> np.ndarray:
 		# Établissement de la connexion au flux vidéo
-		request = requests.get(self.url, stream=True)
+		request = requests.get(self.url, stream=True, timeout=2)
 		boundary = self.get_boundary(request.headers['content-type'])
 
 		# Récupération des données brutes pour extraire les octets liés à l'image
