@@ -19,7 +19,8 @@ TÂCHES À RÉALISER :
 	  déclencher un signal sonore et visuel en cas de détection . . . . . . Done
 	- Enregistrer les personnes détectées pour éventuellement
 	  compiler les détections (optionnel) . . . . . . . . . . . . . . . . . X
-	- Mettre en place un mécanisme de verrouillage et de déverrouillage . . X
+	- Mettre en place un mécanisme de verrouillage et de déverrouillage . . Done
+	- Verrouiller lorsque nous ne pouvons pas joindre le stream . . . . . . Done
 
 @Auteur : Yanis Geny
 @Date : 27/10/2023
@@ -33,17 +34,18 @@ from lib.ledIndicator.ledIndicator import LedIndicator
 from time import sleep
 
 def main():
-	image_receiver = ImageReceiver("http://172.10.4.27:8081")
+	image_receiver = ImageReceiver("http://192.168.1.2:8081")
 	human_detector = HumanDetector()
 	indicator = LedIndicator()
 
-	while True:
+	try:
 		image = image_receiver.get_image()
 		if human_detector.identify_human(image):
 			indicator.alert_presence()
 		else:
 			indicator.alert_none()
-		sleep(1)
+	except:
+		indicator.alert_network()
 
 if __name__ == "__main__":
 	main()

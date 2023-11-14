@@ -83,6 +83,18 @@ cmd_generate_error "During install python3-pip" "true" "true"
 apt install -y python3-opencv > /dev/null
 cmd_generate_error "During installation of Opencv for python" "true" "true"
 
+# mis en place du code python pour verifier la presence de personne devant
+# la camera
+
+cp -r ./protect_door /root/
+/usr/bin/sed -i "s/# By default this script does nothing./# By default this script does nothing.\n\npython3 /root/protect_door/start_protection.py &/" /etc/rc.local
+cmd_generate_error "Edition de rc.local" "true" "false"
+
+# changement des mots de passe des utilisateurs
+/usr/bin/echo -e "$rootpwd\n$rootpwd\n" | /usr/bin/passwd root
+cmd_generate_error "Changement du mot de passe root" "true" "false"
+/usr/bin/echo -e "$userpwd\n$userpwd\n" | /usr/bin/passwd user
+cmd_generate_error "Changement du mot de passe user" "true" "false"
 
 ##
 ### configuration reseau
@@ -97,7 +109,7 @@ echo "	gateway 192.168.1.1" >> /etc/network/interfaces
 echo "wpa-ssid CTF-IOT-2SU" >> /etc/network/interfaces
 echo "wpa-psk 9f5d38db9f0533b94deb6ccc3af0330fa05a1ea49ee154593492af5af2b64e86" >> /etc/network/interfaces
 
-sed -s "s/country=US/country=FR" /etc/wpa_supplicant/wpa_supplicant.conf
+sed -i "s/country=US/country=FR/g" /etc/wpa_supplicant/wpa_supplicant.conf
 echo "" >> /etc/wpa_supplicant/wpa_supplicant.conf
 echo "network {" >> /etc/wpa_supplicant/wpa_supplicant.conf
 echo "	ssid=\"CTF-IOT-2SU\"" >> /etc/wpa_supplicant/wpa_supplicant.conf
