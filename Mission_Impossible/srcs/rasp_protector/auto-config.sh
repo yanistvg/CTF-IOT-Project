@@ -87,7 +87,8 @@ cmd_generate_error "During installation of Opencv for python" "true" "true"
 # la camera
 
 cp -r ./protect_door /root/
-/usr/bin/sed -i "s/# By default this script does nothing./# By default this script does nothing.\n\npython3 /root/protect_door/start_protection.py &/" /etc/rc.local
+chmod +x /root/protect_door/start_protection.sh
+/usr/bin/sed -i "s/# By default this script does nothing./# By default this script does nothing.\n\n\/root\/protect_door\/start_protection.sh/g" /etc/rc.local
 cmd_generate_error "Edition de rc.local" "true" "false"
 
 # changement des mots de passe des utilisateurs

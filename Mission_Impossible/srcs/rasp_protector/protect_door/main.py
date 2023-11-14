@@ -38,14 +38,15 @@ def main():
 	human_detector = HumanDetector()
 	indicator = LedIndicator()
 
-	try:
-		image = image_receiver.get_image()
-		if human_detector.identify_human(image):
-			indicator.alert_presence()
-		else:
-			indicator.alert_none()
-	except:
-		indicator.alert_network()
+	while True:
+		try:
+			image = image_receiver.get_image()
+			if human_detector.identify_human(image):
+				indicator.alert_presence()
+			else:
+				indicator.alert_none()
+		except:
+			indicator.alert_network()
 
 if __name__ == "__main__":
 	main()
