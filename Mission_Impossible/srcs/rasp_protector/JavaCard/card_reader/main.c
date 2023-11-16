@@ -19,13 +19,23 @@
 #include "lib/headers/return_code.h"
 
 int main(void) {
+	int returnValue = 0;
 	card_reader_t *cardReader = NULL;
 
-	find_card_reader(&cardReader);
-
-	if (cardReader == NULL) return 1;
+	returnValue = find_card_readers(&cardReader);
+	if (returnValue != _SUCCESS_) return 1;
 
 	printf("reader name: %s\n", cardReader->mszReaders);
 
+	returnValue = connect_to_card(&cardReader);
+
+	if (returnValue == SCARD_E_UNKNOWN_READER)
+		printf("Pas de lecteur de carte trouve\n");
+	if (returnValue == SCARD_E_READER_UNAVAILABLE)
+		printf("Pas de carte trouve\n");
+	if (returnValue != _SUCCESS_) return 0;
+
+
+	free(cardReader);
 	return 0;
 }

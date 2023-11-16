@@ -11,11 +11,11 @@
 *       int     find_card_reader(card_reader_t **cardReader)
 * 
 * TO DO:
-*       - Verifier la presence d'un lecteur de carte . . . . . . X
+*       - Verifier la presence d'un lecteur de carte . . . . . . Done
 *       - Se connecter au lecteur de carte et attendre le
-*         branchement d'une carte  . . . . . . . . . . . . . . . X
-*       - Se connecter a la carte  . . . . . . . . . . . . . . . X
-*       - Detecter la deconnection du lecteur ou de la carte . . X
+*         branchement d'une carte  . . . . . . . . . . . . . . . Done
+*       - Se connecter a la carte  . . . . . . . . . . . . . . . Done
+*       - Detecter la deconnection du lecteur ou de la carte . . Done
 *
 * AUTHOR :    Yanis GENY          START DATE :    15 Nov 2023
 ************************************************************************/
@@ -26,6 +26,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "return_code.h"
 
 #ifdef __APPLE__
@@ -60,20 +61,18 @@
 // //                    CLA   INS   P1    P2    LE
 
 typedef struct CardReader {
-	SCARDCONTEXT hContext;
+	SCARDCONTEXT     hContext;
 	SCARD_IO_REQUEST pioSendPci;
-	DWORD dwReaders;
-	LPTSTR mszReaders;
+	DWORD            dwReaders;
+	LPTSTR           mszReaders;
+	SCARDHANDLE      hCard;
+	DWORD            dwActiveProtocol;
 } card_reader_t;
 
 
 /* Declaration des fonctions */
-int find_card_reader(card_reader_t **cardReader);
-
-
-
-
-
+int find_card_readers(card_reader_t **cardReader);
+int connect_to_card(card_reader_t **cardReader);
 
 
 #endif
