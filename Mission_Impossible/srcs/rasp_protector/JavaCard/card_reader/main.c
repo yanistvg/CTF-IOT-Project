@@ -16,24 +16,84 @@
 ************************************************************************/
 
 #include "lib/headers/interactWithReader.h"
+#include "lib/headers/interactWithCard.h"
+#include "lib/headers/IHM_computer.h"
 #include "lib/headers/return_code.h"
+
+#define ON_RASP 0 // passer a 1 lorque nous executons se code
+                  // sans terminal avec les elements de communication
+                  // avec un afficher LCD et un digicode
+
+#define ATTEND_ID 11 // id qui va permettre d'ouvrir la porte
 
 int main(void) {
 	int returnValue = 0;
 	card_reader_t *cardReader = NULL;
+	int id;
+	char code[4];
 
-	returnValue = find_card_readers(&cardReader);
-	if (returnValue != _SUCCESS_) return 1;
+	void (*show_msg)(char *);
 
-	printf("reader name: %s\n", cardReader->mszReaders);
+	if (ON_RASP) {
+		// affecter a show_msg la fonction pour transmettre
+		// a l'afficher LCD
+	} else {
+		show_msg = &(show_message_to_user_computer);
+	}
 
-	returnValue = connect_to_card(&cardReader);
+	while (1) {
 
-	if (returnValue == SCARD_E_UNKNOWN_READER)
-		printf("Pas de lecteur de carte trouve\n");
-	if (returnValue == SCARD_E_READER_UNAVAILABLE)
-		printf("Pas de carte trouve\n");
-	if (returnValue != _SUCCESS_) return 0;
+		/* on recupere le code par l'utilisateur */
+		if (ON_RASP) {
+			// recuperation du code via le digicode
+		} else {
+			 // recuperation par le terminal
+			get_code_from_user_computer(code);
+		}
+
+		/* Si pas de lecteur de carte trouve */
+		returnValue = find_card_readers(&cardReader);
+		if (returnValue == _SUCCESS_) {
+
+			/* Si il n'y a pas de carte ou de lecteur */
+			returnValue = connect_to_card(&cardReader);
+			if (returnValue == _SUCCESS_) { // si la connection a une carte c'est bien etablie
+
+				// faire la communication avec la carte pour recupere l'id
+				returnValue = made_full_communication_with_card(&cardReader, code, &id);
+
+				if (returnValue == _ERROR_DURING_COMMUNICATION_ ||
+					returnValue == _ERROR_CANT_SELECT_APPLET_   ||
+					returnValue == _ERROR_DURING_GET_ID_)
+					show_msg("FAILED : Comm with card");
+				if (returnValue == _ERROR_BAD_PIN_)
+					show_msg("FAILED : Bad PIN");
+
+				if (returnValue == _SUCCESS_) {
+					show_msg("Code valide");
+					if (id == ATTEND_ID) {
+						// ouvrir la porte
+						show_msg("Door open");
+					} else {
+						// l'id n'est pas le bon
+						show_msg("Bad ID");
+					}
+				}
+
+				disconnect_to_card(&cardReader);
+				disconnect_to_reader(&cardReader);
+				cardReader = NULL;
+			
+			} else {
+				show_msg("FAILED : Not card found");
+				disconnect_to_reader(&cardReader);
+				cardReader = NULL;
+			}
+
+		} else {
+			show_msg("FAILED : Not card reader found");
+		}
+	}
 
 
 	free(cardReader);

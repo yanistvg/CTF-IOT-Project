@@ -9,6 +9,9 @@
 *
 * PUBLIC FUNCTIONS :
 *       int     find_card_reader(card_reader_t **cardReader)
+*       int     connect_to_card(card_reader_t **cardReader)
+*       int     disconnect_to_card(card_reader_t **cardReader);
+*       int     disconnect_to_reader(card_reader_t **cardReader);
 * 
 * TO DO:
 *       - Verifier la presence d'un lecteur de carte . . . . . . Done
@@ -48,18 +51,6 @@
 #ifndef __INTERACT_WITH_READER_H__
 #define __INTERACT_WITH_READER_H__
 
-
-
-// BYTE APDU_select_applet[] = {0x00, 0xA4, 0x04, 0x00, 0x0b, 0x01, 0x02,
-// 	                         0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
-// 	                         0x00, 0x01, 0x7F};
-
-// BYTE APDU_verify_pin[10] = {0x80, 0x22, 0x00, 0x00, 0x04, 0x01, 0x05, 0x08, 0x03, 0x7F};
-// //                          CLA   INS   P1    P2    LC    --------- PIN --------  LE
-
-// BYTE APDU_get_id[] = {0x80, 0x23, 0x00, 0x00, 0x7F};
-// //                    CLA   INS   P1    P2    LE
-
 typedef struct CardReader {
 	SCARDCONTEXT     hContext;
 	SCARD_IO_REQUEST pioSendPci;
@@ -73,6 +64,8 @@ typedef struct CardReader {
 /* Declaration des fonctions */
 int find_card_readers(card_reader_t **cardReader);
 int connect_to_card(card_reader_t **cardReader);
+int disconnect_to_card(card_reader_t **cardReader);
+int disconnect_to_reader(card_reader_t **cardReader);
 
 
 #endif

@@ -121,3 +121,33 @@ int connect_to_card(card_reader_t **cardReader) {
 
 	return _SUCCESS_;
 }
+
+int disconnect_to_card(card_reader_t **cardReader) {
+	LONG rv;
+
+	if (*cardReader == NULL) return _NOT_INITIALISATED_;
+
+	rv = SCardDisconnect((*cardReader)->hCard, SCARD_LEAVE_CARD);
+	if (rv != SCARD_S_SUCCESS) return rv;
+
+	#ifdef SCARD_AUTOALLOCATE
+		rv = SCardFreeMemory((*cardReader)->hContext, (*cardReader)->mszReaders);
+		if (rv != SCARD_S_SUCCESS) return rv;
+	#else
+		free((*cardReader)->mszReaders);
+	#endif
+
+	return _SUCCESS_;
+}
+
+int disconnect_to_reader(card_reader_t **cardReader) {
+	LONG rv;
+
+	if (*cardReader == NULL) return _NOT_INITIALISATED_;
+
+	rv = SCardReleaseContext((*cardReader)->hContext);
+	if (rv != SCARD_S_SUCCESS) return rv;
+
+	*cardReader = NULL;
+	return _SUCCESS_;
+}

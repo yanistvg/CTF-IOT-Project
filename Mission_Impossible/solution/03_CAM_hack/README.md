@@ -1,0 +1,1 @@
+# Attaque sur la camera
