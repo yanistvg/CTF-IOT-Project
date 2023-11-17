@@ -1,0 +1,280 @@
+// converted by version 1.3
+// on Fri Nov 17 16:27:34 CET 2023
+
+.package brutforceDoor {
+	.aid 0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.3;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0:0x1 BrutforceDoor;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef byte[] BrutforceDoor/id;
+		// 1
+		instanceFieldRef boolean BrutforceDoor/lockId;
+		// 2
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 3
+		classRef BrutforceDoor;
+		// 4
+		staticMethodRef BrutforceDoor/<init>()V;
+		// 5
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 6
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 7
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 8
+		staticMethodRef 0.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 9
+		virtualMethodRef BrutforceDoor/validatePin(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 10
+		virtualMethodRef BrutforceDoor/getId(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 11
+		staticFieldRef byte[] BrutforceDoor/code_lock_id;
+		// 12
+		staticFieldRef byte[] BrutforceDoor/code_reste_id;
+		// 13
+		virtualMethodRef 0.10.7()S;		// setOutgoing()S
+		// 14
+		virtualMethodRef 0.10.9(S)V;		// setOutgoingLength(S)V
+		// 15
+		virtualMethodRef 0.10.5([BSS)V;		// sendBytesLong([BSS)V
+	}
+
+	.class public BrutforceDoor 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			 byte[] id 0;		// [B
+			 boolean lockId 1;		// Z
+			private static final byte[] code_lock_id = {1,2,3,4};		// [B
+			private static final byte[] code_reste_id = {4,3,2,1};		// [B
+			private static final byte ID_CARD_CLA = -128;		// B
+			private static final byte VALIDATE_PIN_INS = 34;		// B
+			private static final byte GET_ID_INS = 35;		// B
+			private static final short SW_OK_PASSE_TOUT_VA_BIEN = -28672;		// S
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+			validatePin(Ljavacard/framework/APDU;)V;
+			getId(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 2;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 2;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					sconst_1;
+					newarray 11;
+					putfield_a 0;		// reference brutforceDoor/BrutforceDoor.id
+					aload_0;
+					sconst_0;
+					putfield_b 1;		// boolean brutforceDoor/BrutforceDoor.lockId
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 2;
+			.locals 0;
+
+				L0:	new 3;		// brutforceDoor/BrutforceDoor
+					dup;
+					invokespecial 4;		// brutforceDoor/BrutforceDoor.<init>()V
+					invokevirtual 5;		// register()V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 2;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 6;		// getBuffer()[B
+					astore_2;
+					aload_0;
+					invokevirtual 7;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_2;
+					sconst_0;
+					baload;
+					bspush -128;
+					if_scmpeq L4;
+				L3:	sspush 28160;
+					invokestatic 8;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					stableswitch L7 34 35 L5 L6;
+				L5:	aload_0;
+					aload_1;
+					invokevirtual 9;		// validatePin(Ljavacard/framework/APDU;)V
+					goto L8;
+				L6:	aload_0;
+					aload_1;
+					invokevirtual 10;		// getId(Ljavacard/framework/APDU;)V
+					goto L8;
+				L7:	sspush 27904;
+					invokestatic 8;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	return;
+		}
+
+		.method public validatePin(Ljavacard/framework/APDU;)V 8 {
+			.stack 5;
+			.locals 3;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 6;		// getBuffer()[B
+					astore_2;
+					sconst_4;
+					newarray 11;
+					astore_3;
+					sconst_0;
+					sstore 4;
+					goto L2;
+				L1:	aload_3;
+					sload 4;
+					aload_2;
+					sconst_5;
+					sload 4;
+					sadd;
+					baload;
+					bastore;
+					sinc 4 1;
+				L2:	sload 4;
+					sconst_4;
+					if_scmplt L1;
+				L3:	aload_3;
+					sconst_0;
+					baload;
+					getstatic_a 11;		// reference brutforceDoor/BrutforceDoor.code_lock_id
+					sconst_0;
+					baload;
+					if_scmpne L8;
+				L4:	aload_3;
+					sconst_1;
+					baload;
+					getstatic_a 11;		// reference brutforceDoor/BrutforceDoor.code_lock_id
+					sconst_1;
+					baload;
+					if_scmpne L8;
+				L5:	aload_3;
+					sconst_2;
+					baload;
+					getstatic_a 11;		// reference brutforceDoor/BrutforceDoor.code_lock_id
+					sconst_2;
+					baload;
+					if_scmpne L8;
+				L6:	aload_3;
+					sconst_3;
+					baload;
+					getstatic_a 11;		// reference brutforceDoor/BrutforceDoor.code_lock_id
+					sconst_3;
+					baload;
+					if_scmpne L8;
+				L7:	aload_0;
+					sconst_1;
+					putfield_b 1;		// boolean brutforceDoor/BrutforceDoor.lockId
+				L8:	aload_3;
+					sconst_0;
+					baload;
+					getstatic_a 12;		// reference brutforceDoor/BrutforceDoor.code_reste_id
+					sconst_0;
+					baload;
+					if_scmpne L13;
+				L9:	aload_3;
+					sconst_1;
+					baload;
+					getstatic_a 12;		// reference brutforceDoor/BrutforceDoor.code_reste_id
+					sconst_1;
+					baload;
+					if_scmpne L13;
+				L10:	aload_3;
+					sconst_2;
+					baload;
+					getstatic_a 12;		// reference brutforceDoor/BrutforceDoor.code_reste_id
+					sconst_2;
+					baload;
+					if_scmpne L13;
+				L11:	aload_3;
+					sconst_3;
+					baload;
+					getstatic_a 12;		// reference brutforceDoor/BrutforceDoor.code_reste_id
+					sconst_3;
+					baload;
+					if_scmpne L13;
+				L12:	aload_0;
+					sconst_0;
+					putfield_b 1;		// boolean brutforceDoor/BrutforceDoor.lockId
+					getfield_a_this 0;		// reference brutforceDoor/BrutforceDoor.id
+					sconst_0;
+					sconst_0;
+					bastore;
+				L13:	sspush -28672;
+					invokestatic 8;		// javacard/framework/ISOException.throwIt(S)V
+					return;
+		}
+
+		.method public getId(Ljavacard/framework/APDU;)V 9 {
+			.stack 4;
+			.locals 0;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	getfield_b_this 1;		// boolean brutforceDoor/BrutforceDoor.lockId
+					ifne L2;
+				L1:	getfield_a_this 0;		// reference brutforceDoor/BrutforceDoor.id
+					sconst_0;
+					getfield_a_this 0;		// reference brutforceDoor/BrutforceDoor.id
+					sconst_0;
+					baload;
+					sconst_1;
+					sadd;
+					s2b;
+					bastore;
+				L2:	aload_1;
+					invokevirtual 13;		// setOutgoing()S
+					pop;
+					aload_1;
+					sconst_1;
+					invokevirtual 14;		// setOutgoingLength(S)V
+					aload_1;
+					getfield_a_this 0;		// reference brutforceDoor/BrutforceDoor.id
+					sconst_0;
+					sconst_1;
+					invokevirtual 15;		// sendBytesLong([BSS)V
+					return;
+		}
+
+	}
+
+}
