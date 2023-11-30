@@ -37,6 +37,8 @@ int main(void) {
 	if (ON_RASP) {
 		// affecter a show_msg la fonction pour transmettre
 		// a l'afficher LCD
+		init_serial_communication(); // initialise la communication serie avec l'arduino
+		show_msg = &(show_message_to_user_arduino);
 	} else {
 		show_msg = &(show_message_to_user_computer);
 	}
@@ -46,6 +48,7 @@ int main(void) {
 		/* on recupere le code par l'utilisateur */
 		if (ON_RASP) {
 			// recuperation du code via le digicode
+			get_code_from_user_computer(code);
 		} else {
 			 // recuperation par le terminal
 			get_code_from_user_computer(code);
@@ -65,18 +68,18 @@ int main(void) {
 				if (returnValue == _ERROR_DURING_COMMUNICATION_ ||
 					returnValue == _ERROR_CANT_SELECT_APPLET_   ||
 					returnValue == _ERROR_DURING_GET_ID_)
-					show_msg("FAILED : Comm with card");
+					show_msg("FAILED : Comm with card\0");
 				if (returnValue == _ERROR_BAD_PIN_)
-					show_msg("FAILED : Bad PIN");
+					show_msg("FAILED : Bad PIN\0");
 
 				if (returnValue == _SUCCESS_) {
-					show_msg("Code valide");
+					show_msg("Code valide\0");
 					if (id == ATTEND_ID) {
 						// ouvrir la porte
-						show_msg("Door open");
+						show_msg("Door open\0");
 					} else {
 						// l'id n'est pas le bon
-						show_msg("Bad ID");
+						show_msg("Bad ID\0");
 					}
 				}
 
@@ -85,13 +88,13 @@ int main(void) {
 				cardReader = NULL;
 			
 			} else {
-				show_msg("FAILED : Not card found");
+				show_msg("FAILED : Not card found\0");
 				disconnect_to_reader(&cardReader);
 				cardReader = NULL;
 			}
 
 		} else {
-			show_msg("FAILED : Not card reader found");
+			show_msg("FAILED : Not card reader found\0");
 		}
 	}
 
