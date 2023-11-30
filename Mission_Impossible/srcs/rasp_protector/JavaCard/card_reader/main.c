@@ -18,9 +18,10 @@
 #include "lib/headers/interactWithReader.h"
 #include "lib/headers/interactWithCard.h"
 #include "lib/headers/IHM_computer.h"
+#include "lib/headers/IHM_arduino.h"
 #include "lib/headers/return_code.h"
 
-#define ON_RASP 0 // passer a 1 lorque nous executons se code
+#define ON_RASP 1 // passer a 1 lorque nous executons se code
                   // sans terminal avec les elements de communication
                   // avec un afficher LCD et un digicode
 

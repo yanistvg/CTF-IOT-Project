@@ -91,6 +91,11 @@ chmod +x /root/protect_door/start_protection.sh
 /usr/bin/sed -i "s/# By default this script does nothing./# By default this script does nothing.\n\n\/root\/protect_door\/start_protection.sh/g" /etc/rc.local
 cmd_generate_error "Edition de rc.local" "true" "false"
 
+# mis en place du code qui permet l'ouverture de la porte
+apt install -y libpcsclite-dev > /dev/null
+apt install -y pcscd > /dev/null
+ldconfig
+
 # changement des mots de passe des utilisateurs
 /usr/bin/echo -e "$rootpwd\n$rootpwd\n" | /usr/bin/passwd root
 cmd_generate_error "Changement du mot de passe root" "true" "false"
