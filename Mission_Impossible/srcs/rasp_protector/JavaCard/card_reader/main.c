@@ -31,7 +31,7 @@ int main(void) {
 	int returnValue = 0;
 	card_reader_t *cardReader = NULL;
 	int id;
-	char code[4];
+	char code[5];
 
 	void (*show_msg)(char *);
 
@@ -69,9 +69,9 @@ int main(void) {
 				if (returnValue == _ERROR_DURING_COMMUNICATION_ ||
 					returnValue == _ERROR_CANT_SELECT_APPLET_   ||
 					returnValue == _ERROR_DURING_GET_ID_)
-					show_msg("FAILED : Comm with card\0");
+					show_msg("Comm with card\0");
 				if (returnValue == _ERROR_BAD_PIN_)
-					show_msg("FAILED : Bad PIN\0");
+					show_msg("Bad PIN\0");
 
 				if (returnValue == _SUCCESS_) {
 					show_msg("Code valide\0");
@@ -89,13 +89,13 @@ int main(void) {
 				cardReader = NULL;
 			
 			} else {
-				show_msg("FAILED : Not card found\0");
+				show_msg("No card found\0");
 				disconnect_to_reader(&cardReader);
 				cardReader = NULL;
 			}
 
 		} else {
-			show_msg("FAILED : Not card reader found\0");
+			show_msg("No card reader\0");
 		}
 	}
 

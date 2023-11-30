@@ -24,6 +24,7 @@ void get_code_from_user_computer(char *code_dst) {
 		code_dst[i] = code % 10;
 		code /= 10;
 	}
+	code_dst[4] = 0;
 }
 
 /*

@@ -2,6 +2,7 @@
 
 #include "serialCommunication.h"
 #include "return_code.h"
+#include <strings.h>
 
 int serial_arduino = 0; // file descriptor to communicat with arduino in serial UART
 
