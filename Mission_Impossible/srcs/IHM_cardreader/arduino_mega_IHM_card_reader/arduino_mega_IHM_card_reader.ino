@@ -56,10 +56,13 @@ void loop() {
       index_code++;
     }
 
-    if (keypad_matrix == 'A') {
-      Serial.println(code);
-      for (int y=0; y<5; y++)
+    if (keypad_matrix == 'A' && index_code >= 4) {
+      // Serial.print(code);
+      for (int y=0; y<5; y++) {
+        Serial.write(code[y]);
         code[y] = 0;
+      }
+      Serial.write('\n');
       index_code = 0;
     }
   }

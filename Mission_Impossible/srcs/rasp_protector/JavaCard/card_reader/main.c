@@ -49,7 +49,7 @@ int main(void) {
 		/* on recupere le code par l'utilisateur */
 		if (ON_RASP) {
 			// recuperation du code via le digicode
-			get_code_from_user_computer(code);
+			get_code_from_user_arduino(code);
 		} else {
 			 // recuperation par le terminal
 			get_code_from_user_computer(code);

@@ -24,10 +24,27 @@ Mission_Impossible
  |   |   |                    intrution par la camera
  |   |   |
  |   |   |- protect_door    : Code python qui permet de récupérer le flux vidéo de la
- |   |                        caméra et identifie la présence de personne
+ |   |   |                    caméra et identifie la présence de personne
+ |   |   |
+ |   |   |- JavaCard        : code lier au lecteur de carte
+ |   |   |   |
+ |   |   |   |- card_code   : Code en Javacard implementer a une carte pour simuler un
+ |   |   |   |                badge d'un ancien employée
+ |   |   |   |
+ |   |   |   |- card_reader : Code en C qui permet d'interagir avec un lecteur de carte
+ |   |   |                    et une carte arduino (qui fait l'IHM). Ce code simule un
+ |   |   |                    lecteur de carte pour ouvrir une porte
  |   |
  |   |- rasp_cam            : Fichier source pour la raspberry qui est une caméra et
  |   |                        diffuse le flux vidéo
+ |   |
+ |   |- network             : Explication de la configuration réseau pour le projet
+ |   |
+ |   |- IHM_cardreader      : Code pour une arduino qui permet d'avoir une IHM pour
+ |                            intéragir avec le lecteur de carte
+ |
+ |- solution                : Ce dossier contient l'ensemble des solutions d'attaque
+                              pour ce challenge
 ```
 
 Dans les sources, pour chaque équipement se trouve les informations de la mise en place détaillé pour pouvoir mettre en place chaque élement.
