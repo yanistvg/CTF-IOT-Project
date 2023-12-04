@@ -32,7 +32,7 @@ serialCommunication.o: lib/serialCommunication.c lib/headers/serialCommunication
 	$(CC) -c lib/serialCommunication.c
 IHM_arduino.o: lib/IHM_arduino.c lib/headers/IHM_arduino.h
 	$(CC) -c lib/IHM_arduino.c
-camDetected.c: lib/camDetected.c lib/headers/camDetected.h
+camDetected.o: lib/camDetected.c lib/headers/camDetected.h
 	$(CC) -c lib/camDetected.c
 
 clean:

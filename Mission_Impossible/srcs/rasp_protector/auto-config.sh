@@ -87,14 +87,26 @@ cmd_generate_error "During installation of Opencv for python" "true" "true"
 # la camera
 
 cp -r ./protect_door /root/
+cmd_generate_error "copy python code interact with cam" "true" "true"
 chmod +x /root/protect_door/start_protection.sh
+cmd_generate_error "add execution to start_protection.sh file" "true" "true"
 /usr/bin/sed -i "s/# By default this script does nothing./# By default this script does nothing.\n\n\/root\/protect_door\/start_protection.sh/g" /etc/rc.local
 cmd_generate_error "Edition de rc.local" "true" "false"
 
 # mis en place du code qui permet l'ouverture de la porte
 apt install -y libpcsclite-dev > /dev/null
+cmd_generate_error "libpcsclite-dev installation" "true" "false"
 apt install -y pcscd > /dev/null
+cmd_generate_error "pcscd installation" "true" "false"
 ldconfig
+cmd_generate_error "ldconfig cmd" "true" "false"
+
+make -C JavaCard/card_reader/
+cmd_generate_error "Compilation of card_reader code" "true" "true"
+mv JavaCard/card_reader/badgeReader /root/
+cmd_generate_error "moving code to root path" "true" "true"
+/usr/bin/sed -i "s/# By default this script does nothing./# By default this script does nothing.\n\n\/root\/badgeReader/g" /etc/rc.local
+cmd_generate_error "Add badgeReader to start in power up" "true" "true"
 
 # changement des mots de passe des utilisateurs
 /usr/bin/echo -e "$rootpwd\n$rootpwd\n" | /usr/bin/passwd root
