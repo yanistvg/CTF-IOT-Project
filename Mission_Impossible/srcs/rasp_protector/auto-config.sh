@@ -105,8 +105,6 @@ make -C JavaCard/card_reader/
 cmd_generate_error "Compilation of card_reader code" "true" "true"
 mv JavaCard/card_reader/badgeReader /root/
 cmd_generate_error "moving code to root path" "true" "true"
-/usr/bin/sed -i "s/# By default this script does nothing./# By default this script does nothing.\n\n\/root\/badgeReader/g" /etc/rc.local
-cmd_generate_error "Add badgeReader to start in power up" "true" "true"
 
 # changement des mots de passe des utilisateurs
 /usr/bin/echo -e "$rootpwd\n$rootpwd\n" | /usr/bin/passwd root
