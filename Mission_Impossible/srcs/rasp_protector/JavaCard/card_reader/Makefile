@@ -12,7 +12,8 @@ OBJS= main.o                \
       interactWithCard.o    \
       IHM_computer.o        \
       IHM_arduino.o         \
-      serialCommunication.o
+      serialCommunication.o \
+      camDetected.o
 EXECNAME = badgeReader
 
 all: $(OBJS)
@@ -31,6 +32,8 @@ serialCommunication.o: lib/serialCommunication.c lib/headers/serialCommunication
 	$(CC) -c lib/serialCommunication.c
 IHM_arduino.o: lib/IHM_arduino.c lib/headers/IHM_arduino.h
 	$(CC) -c lib/IHM_arduino.c
+camDetected.c: lib/camDetected.c lib/headers/camDetected.h
+	$(CC) -c lib/camDetected.c
 
 clean:
 	rm -f $(OBJS) $(EXECNAME)

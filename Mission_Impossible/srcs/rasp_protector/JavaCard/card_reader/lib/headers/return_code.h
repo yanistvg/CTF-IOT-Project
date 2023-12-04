@@ -12,5 +12,7 @@
 #define _ERROR_CANT_SELECT_APPLET_    8
 #define _ERROR_DURING_GET_ID_         9
 #define _ERROR_INIT_SERIAL_          10
+#define _CAM_NOT_DETECT_             11
+#define _CAM_DETECT_                 12
 
 #endif

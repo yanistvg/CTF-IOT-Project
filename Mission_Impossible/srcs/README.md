@@ -3,6 +3,7 @@
 Pour ce challenge, il y a un certain nombre d'élements physique à mettre en place. Ce fichier permet de donner la procédure pour mettre en place le challenge. Toute les explication détailler sont disponible dans les dossiers de chaque device du challenge.
 
 Ce challenge est schématisable par l'image ci-dessous
+
 ![schema du systeme](./imgs/01_schema.png "schema du systeme")
 
 ## Liste des élements pour mettre en place le système
@@ -29,4 +30,4 @@ Pour faire la mise en place du système, il faut suivre les étapes suivante :
  - Mettre en place la raspberry door protector. Pour cela il faut suivre les étapes du dossier `rasp_protector`. Il faut aussi vérifier la bonne connection avec le routeur, et la camera.
  - Il faut ensuite mettre en place le code de la carte Arduino MEGA en suivant les étapes du dossier `IHM_cardreader`.
  - Nous pouvons mainteant réaliser une carte d'un ancien emplyée en suivant les étapes du dossier `rasp_protector/JavaCard`
- - Une fois toute ces installations faite, il faut brancher la carte Arduino MEGA sur la raspberry PI `rasp_protector`, et y brancher aussi le lecteur de carte. (Si la carte Arduino n'est pas branché au démarrage de la Raspberry PI, il est possible que le code c'est stopper. Il faut donc faire ces branchement avant de mettre la sous tension)
+ - Une fois toute ces installations faite, il faut brancher la carte Arduino MEGA sur la raspberry PI `rasp_protector`, et y brancher aussi le lecteur de carte. (Si la carte Arduino n'est pas branché au démarrage de la Raspberry PI, il est possible que le code c'est stopper. Il faut donc faire ces branchement avant de mettre la sous tension, et bien attendre quelle seconde avant de brancher le lecteur de carte)

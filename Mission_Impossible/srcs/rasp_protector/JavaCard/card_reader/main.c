@@ -20,6 +20,7 @@
 #include "lib/headers/IHM_computer.h"
 #include "lib/headers/IHM_arduino.h"
 #include "lib/headers/return_code.h"
+#include "lib/headers/camDetected.h"
 
 #define ON_RASP 1 // passer a 1 lorque nous executons se code
                   // sans terminal avec les elements de communication
@@ -74,10 +75,12 @@ int main(void) {
 					show_msg("Bad PIN\0");
 
 				if (returnValue == _SUCCESS_) {
-					show_msg("Code valide\0");
 					if (id == ATTEND_ID) {
-						// ouvrir la porte
-						show_msg("Door open\0");
+						// ouvrir la porte si personnes est devant la camera
+						if (camAsDetectcHumain() == _CAM_NOT_DETECT_)
+							show_msg("Door open\0");
+						else
+							show_msg("CAM detect YOU\0");
 					} else {
 						// l'id n'est pas le bon
 						show_msg("Bad ID\0");

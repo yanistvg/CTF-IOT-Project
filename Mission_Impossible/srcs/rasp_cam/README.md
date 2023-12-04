@@ -18,6 +18,10 @@ raspi-config
 	# une fois terminer appuyer sur echap
 ```
 
+Maintenant nous pouvons brancher la caméra à la raspberry PI comme l'image ci-dessous.
+
+![Cam connected](./imgs/01_rasp_conntec_cam.png "Cam connected")
+
 Pour mettre en place l'environnement de cette raspberry, il faut utiliser le script en temps que root disponible dans ce répertoir :
 
 ```sh
