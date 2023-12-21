@@ -5,6 +5,7 @@ projet de 5eme années à l'INSA CVL, nous avons un projet de mise en place de C
 Le groupe de travail pour ce projet est composé de :
   - Yanis GENY
   - Jannate ALQARH
+  - Raphael PARVEDY
 ```
 
 Le projet est composé en plusieur partie.
