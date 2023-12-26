@@ -1,7 +1,7 @@
-# spectrology
+# Spectrology
 Convertisseur d'images en fichiers audio avec des spectrogrammes correspondants.
 
-## Usage
+## Utilisation
 
 ```
 usage: spectrology.py [-h] [-r] [-o OUTPUT] [-b BOTTOM] [-t TOP] [-p PIXELS]
