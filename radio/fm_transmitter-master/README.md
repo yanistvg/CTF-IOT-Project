@@ -1,8 +1,8 @@
 FM Transmitter
 
-Transformez votre Raspberry Pi en émetteur FM. Fonctionne sur tous les modèles de Raspberry Pi.
+Transformez votre Raspberry Pi en brouilleur radio. Fonctionne sur tous les modèles de Raspberry Pi.
 
-Il vous suffit de disposer d'un récepteur FM, de connecter un fil d'environ 20 à 40 cm au GPIO4 de la Raspberry Pi (PIN 7 sur l'en-tête GPIO) pour servir d'antenne, et vous êtes prêt à diffuser.
+Il vous suffit de disposer d'un récepteur FM, de connecter un fil d'environ 20 à 40 cm au GPIO4 de la Raspberry Pi (PIN 4 sur l'en-tête GPIO) pour servir d'antenne, et vous êtes prêt à diffuser.
 
 Ce projet utilise la sortie de l'horloge générale pour produire une communication radio à modulation de fréquence. Il s'inspire d'une idée initialement présentée par Oliver Mattos et Oskar Weigl dans le cadre du projet PiFM.
 
