@@ -33,12 +33,13 @@ Cela générera une transmission FM sur 107,9 MHz, avec le nom de station par d�
 Vous pouvez ajouter de l'audio monophonique ou stéréophonique en référençant un fichier audio comme suit:
 
     sudo ./pi_fm_rds -audio sound.wav
-    
+
 Pour tester l'audio stéréophonique, vous pouvez essayer le fichier stereo_44100.wav fourni.
 
 La syntaxe plus générale pour exécuter Pi-FM-RDS est la suivante: 
 
     pi_fm_rds [-freq freq] [-audio file] [-ppm ppm_error] [-pi pi_code] [-ps ps_text] [-rt rt_text]
+    
 Tous les arguments sont facultatifs :
 
     -freq spécifie la fréquence porteuse (en MHz). Exemple : -freq 107,9.
