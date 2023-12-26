@@ -4,24 +4,20 @@ Ce script Python implémente le chiffrement de César, un chiffrement par substi
 
 ## Utilisation
 
-1. Chiffrer un message :
+###   1. Chiffrer un message :
 
-   Modifiez le script pour spécifier le message à chiffrer et la clé, puis exécutez-le.
+Modifiez le script pour spécifier le message à chiffrer et la clé, puis exécutez-le.
 
-python
+    # Exemple d'utilisation
+    message_a_chiffrer = "Bonjour"
+    cle = "CleSecrete"
+    
+    message_chiffre = chiffrement_cesar(message_a_chiffrer, cle)
+    print("Message chiffré:", message_chiffre)
 
-   # Exemple d'utilisation
-   message_a_chiffrer = "Bonjour"
-   cle = "CleSecrete"
-
-   message_chiffre = chiffrement_cesar(message_a_chiffrer, cle)
-   print("Message chiffré:", message_chiffre)
-
-2. Déchiffrer un message :
+### 2. Déchiffrer un message :
 
 Modifiez le script pour spécifier le message chiffré et la même clé utilisée pour le chiffrement, puis exécutez-le.
-
-python
 
     # Exemple d'utilisation
     message_dechiffre = dechiffrement_cesar(message_chiffre, cle)
