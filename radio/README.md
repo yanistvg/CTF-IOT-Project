@@ -35,7 +35,7 @@ Matériel Requis:
     Une antenne TNT pour l'analyse des fréquences.
 
 Branchement du Fil Électrique:
-    Branchez un fil électrique d'environ 20 cm sur le pin 4 de la Raspberry Pi.
+    Branchez un fil électrique d'environ 20 cm sur le pin 4 et 7 de la Raspberry Pi.
 
 Configuration Logicielle:
     Suivez les instructions pour installer les programmes nécessaires sur la Raspberry Pi.
