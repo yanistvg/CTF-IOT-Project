@@ -1,4 +1,4 @@
-FM Transmitter
+# FM Transmitter
 
 Transformez votre Raspberry Pi en brouilleur radio. Fonctionne sur tous les modèles de Raspberry Pi.
 
@@ -6,7 +6,7 @@ Il vous suffit de disposer d'un récepteur FM, de connecter un fil d'environ 20 
 
 Ce projet utilise la sortie de l'horloge générale pour produire une communication radio à modulation de fréquence. Il s'inspire d'une idée initialement présentée par Oliver Mattos et Oskar Weigl dans le cadre du projet PiFM.
 
-Installation et utilisation
+## Installation et utilisation
 
 Pour utiliser ce logiciel, vous devrez compiler l'exécutable. Tout d'abord, installez les dépendances requises :
 
@@ -27,7 +27,7 @@ Après une compilation réussie, vous pouvez commencer à émettre en exécutant
 
     sudo ./fm_transmitter -f 100.6 acoustic_guitar_duet.wav
 
-Remarque :
+## Remarque :
 
     -f fréquence - Spécifie la fréquence en MHz, 100.0 par défaut si non spécifiée
     acoustic_guitar_duet.wav - Fichier WAV d'exemple, vous pouvez utiliser le vôtre
