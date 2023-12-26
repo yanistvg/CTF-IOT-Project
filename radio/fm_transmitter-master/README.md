@@ -19,7 +19,6 @@ Selon le système d'exploitation (par exemple, Ubuntu Server 20.10), il peut ég
 
 Après avoir installé les dépendances, clonez ce référentiel et utilisez la commande make pour construire l'exécutable :
 
-    git clone https://github.com/markondej/fm_transmitter
     cd fm_transmitter
     make
 
