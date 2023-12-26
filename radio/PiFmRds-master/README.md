@@ -17,11 +17,10 @@ Pi-FM-RDS dépend également du pilote Linux rpi-mailbox, vous avez donc besoin 
 Important. Les binaires compilés pour le Raspberry Pi 1 ne sont pas compatibles avec le Raspberry Pi 2/3, et vice versa. Il est toujours recommandé de recompiler lors du changement de modèle, donc ne sautez pas l'étape make clean dans les instructions ci-dessous !
 
 Clonez le référentiel source et exécutez make dans le répertoire src :
-
-  cd PiFmRds/src
-  make clean
-  make
-
+    cd PiFmRds/src
+    make clean
+    make
+    
 Important. Si make signale une erreur, aucun fichier exécutable pi_fm_rds n'est généré (et vice versa). Ainsi, toute erreur doit être corrigée avant de passer aux étapes suivantes. make peut échouer si une bibliothèque requise est manquante (voir ci-dessus), ou cela pourrait être un bogue sur une distribution spécifique/récente. Dans ce cas, veuillez signaler un bogue.
 
 Si make ne signale aucune erreur (c'est-à-dire que l'exécutable pi_fm_rds est généré), vous pouvez simplement exécuter :
