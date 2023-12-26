@@ -27,6 +27,6 @@ python
     message_dechiffre = dechiffrement_cesar(message_chiffre, cle)
     print("Message déchiffré:", message_dechiffre)
 
-Avertissement
+## Avertissement
 
 Le chiffrement de César est un algorithme de chiffrement très simple et ne doit pas être utilisé dans des situations nécessitant une sécurité robuste.
