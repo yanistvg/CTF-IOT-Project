@@ -56,3 +56,5 @@ Une façon de mesurer l'erreur de ppm consiste à lire le fichier pulses.wav : i
 Redirection de l'audio vers Pi-FM-RDS
 
 PiFmRds est un programme expérimental, conçu uniquement à des fins expérimentales. Il n'est en aucun cas destiné à devenir un centre multimédia personnel
+
+https://github.com/ChristopheJacquet/PiFmRds
