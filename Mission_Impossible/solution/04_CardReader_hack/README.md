@@ -16,8 +16,60 @@ Dans cette partie, nous allons vusialiser comment une carte à puce fait pour co
 
 #### 2.1.1. Fonctionnement de la communication entre terminal et carte à puce
 
+Dans cette section, nous allons voir le fonctionnement entre les cartes à puce et les terminaux de manière simplifier pour pouvoir réaliser ce challenge.
 
-***`AFAIRE`***
+Pour commencer, nous allons introduire le principe de client/serveur, car en effet dans ces communication, le terminal est un client qui intérroge la carte qui joue le role de serveur. Pour exemple lorsque vous faite un achat avec votre carte banquaire, le terminal vous demande votre code PIN, puis va la transmettre à la carte et c'est cette dernière qui va vérifier si le code est bon ou non et répondre au client. Dans le cas d'une communication avec un code PIN, il existe une librairie pour les carte à puce qui permet de bloquer la carte celon le nombre de tentative faite.
+
+Il faut donc visualiser la carte comme un serveur. De plus, la carte ne posséde pas de RAM comme un PC stantard, cette mémoire est sauvegarder. Il est donc possible de débrancher une carte, puis en la rebranchant, elle peut reprendre l'exécution de son code l'état des données avant de l'avoir débranché.
+
+Nous parlons d'`applet` un code présent dans la carte. Il faut par ailleur l'instansier pour que l'applet puisse être exécuté, ce qui permet d'avoir plusieur exécution d'un même `applet` en simultané.
+
+Ce qui nous intéresse pour ce challenge se sont les requêtes et réponse `APDU` qui permet de faire la communication entre le client et le serveur. Un trame se constitue de la manière suivante:
+
+```text
+CLA INS P1 P2 LC --data-- LE
+```
+
+- CLA: permet de désigner l'applet avec lequel nous dialoguons.
+- INS: permet de choisir une instruction dans l'applet
+- P1 et P2: sont des paramètres que nous donnons celons l'instruction applet (si non nécéssaire, la valeur de P1 et P2 sont à 0x00)
+- LC: permet de donner le nombre de donné présent dans la section --data--
+- --data--: contient des données que nous pouvons transmettre à l'applet pour des données plus importante que P1 et P2
+- LE: est le nombre d'octet que nous attendons recevoire. Si ne connaisons pas le nombre de donnée transmit, nous pouvons donnée `0x7F` qui permet de récupérer toute le buffer que la carte peut transmettre en une requête.
+
+Par exemple si nous avons une instance qui à pour identifiant `0x80`, une instruction pour vérifier un code PIN avec la valeur `0x22`, qui ne prend pas de paramètre dans P1 et P2, mais qui prend le le code dans les données (chaque numéro du code sont dans un octet différent) et ne retourne pas de donnée, nous aurons la requête `APDU` suivante (cette exemple sera présent dans ce challenge):
+
+```text
+0x80 0x22 0x00 0x00 0x04 0x01 0x02 0x03 0x04 0x00
+CLA  INS  P1   P2   LC   ------ CODE ------- LE
+
+Le code ici est 1234
+```
+
+Pour la réponse par le serveur est sous la forme:
+
+```text
+--data-- SW1 SW2
+```
+
+- --data--: est la donnée tranmit par le serveur en fonction de l'instruction
+- SW1 et SW2: est le code de retour de l'exécution de la carte, l'objectif est d'obtenir `0X9000` pour ne pas avoir d'erreur sinon ... non il ne faut pas avoir autre chose, sinon il faut trouver le type de retour dans les documentations
+
+Par rapport à notre exemple, la réponse que nous aurons:
+
+```text
+si la PIN est correcte:
+  0x90 0x00
+  SW1  SW2
+
+si la réponse est incorrect:
+  0x63 0x00
+  SW1  SW2
+
+  cela dépent le code retour dans le code cette valeur est utilisé dans le code de ce challenge
+```
+
+Pour finir, les applets ont un `AID` qui permet de les différencier dans une carte, mais il y a aussi un `AID` lors de l'instanciation de l'applet.
 
 #### 2.1.2. Identification du code de la carte
 
@@ -107,7 +159,96 @@ Avec ces informations, nous avons ce qu'il faut pour produire une carte qui perm
 
 ### 2.2. Mis en place de l'envirronement de développement JavaCard
 
-***`A FAIRE`***
+Dans cette section, nous allons voir comment mettre en place un environnement de travail qui permet de développer en `JavaCard` avec `Eclipse`. Pour se faire, au préalable il faut installer `Eclipse`, la suite va partir du principe que cela est réalisé. Il faut de plus installer `openjdk`.
+
+Pour commencer, il faut installer les librairies suivantes :
+```bash
+apt install -y libusb-1.0-0-dev libpcsclite1 pcscd pcsc-tools
+```
+
+Une fois l'installation faite, il mettre en place `Java Card Development Kit 2.2.2` sur votre machine. Pour cela vous pouvez utiliser le fichier disponible dans le répertoire ressources [`java_card_kit-2_2_2-linux.zip`](./ressources/java_card_kit-2_2_2-linux.zip), ou bien le télécharger via oracle via le lien [oracle.com](https://oracle.com/java/technologies/java-archive-downloads-javame-downloads.html#javacardkitv222). Il faut décompresser l'archive, puis aller dans le dossier `java_card_kit-2_2_2-linux/java_card_kit-2_2_2/`. Dans ce répertoire se trouve plusieurs archive, il faut déarchiver `java_card_kit-2_2_2-rr-bin-linux-do.zip` puis avec un terminal se rendre dans le contenue déarchiver, et faire les manipulation suivante :
+
+```bash
+mkdir ~/jcdk/
+cp -r . ~/jcdk/
+cd ~/jcdk/bin
+chmod +x *
+```
+
+Nous devons maintenant mettre en place un plugin à `Eclipse`. Le plusgin est disponible dans les ressources [`eclipse-jcde-0.1.zip`](./ressources/eclipse-jcde-0.1.zip) ou bien disponible sur [sourceforge.net](https://sourceforge.net/projects/eclipse-jcde).
+
+Il faut décomprésser le contenue de cette archive, puis se rendre dans le répertoire extrait, puis exécuter les commande suivante ***en appliquant des changements celon les noms des répertoire de votre machine***
+
+```bash
+mv * ~/eclipse/java-2023-06/eclipse/dropins/
+```
+
+Nous allons maintenant installer un programme `gp` qui permet d'intéragir avec un lecteur de carte pour transmettre des codes. Pour cela il faut utiliser le fichier dans les ressources [`gp.jar`](./ressources/gp.jar) ou bien le télécharger sur github via le lien [github.com](https://github.com/martinpaljak/GlobalPlatformPro/releases/tag/v20.01.23) et suivre les commandes suivante
+
+```bash
+cp gp.jar ~/jcdk/
+```
+
+A ce stade, nous avons le plugins ajouté à `Eclipse`. Il faut maintenant appliquer des modifications dans le fichier `~/.profile`:
+
+```bash
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ]; then
+	PATH="$HOME.local/bin:$PATH"
+fi
+
+# set JC_HOME, JAVA_HOME, PATH
+export JC_HOME="$HOME/jcdk"
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 # a modifier celon la machine
+export PATH="$PATH:$JAVA_HOME/bin:$JC_HOME/bin"
+alias gp="java -jar $HOME/jcdk/gp.jar"
+```
+
+Une fois cela effectuer, il faut exécuter la commande suivante :
+
+```bash
+source ~/.profile
+```
+
+A ce stade, nous pouvons vérifier l'installation des différents éléments. Pour cela, il faut brancher un lecteur de carte à votre machine puis faire les tests suivantes:
+
+Vérification de la l'installation de jcdk:
+
+```bash
+$ pcsc_scan
+PC/SC device scanner
+V 1.6.2 (c) 2001-2022, Ludovic Rousseau <ludovic.rousseau@free.fr>
+Using reader plug n play mechanism
+Scanning present readers...
+0: Feitian SCR301 00 00
+
+Tue Jan 9 17:21:24 2024
+ Reader 0: Feitian SCR301 00 00
+  Event number: 0
+  Card state: Card inserted,
+  ATR: 3B 94 95 81 01 46 54 56 00 C5
+
+...
+
+```
+
+Si un lecteur de carte est détécté, alors l'installation de jcdk et des différent driver sont bien installer.
+
+Vérification de l'installation de gp:
+```bash
+$ gp --list
+Warning: no keys given, using default test key 404142434445464748494A4B4C4D4E4F
+ISD: A000000003000000 (OP_READY)
+...
+
+```
+
+Cette commande permet de vérifier que gp fonctionne et permet de lister les applets disponible dans la carte à puce.
+
+Vérification du plugin d'`Eclipse`:
+Pour cela, il faut ouvrir `Eclipse`, puis lors de la création d'un nouveau projet, vous devez avoir la possibilité de créer un projet `Java Card Project`.
+
+Si avec toute ces étapes les tests des différentes installations fonctionnent, il ne vous reste plus qu'à suivre l'étape suivante qui permet de résourde le challenge avec des différentes installation de faite.
 
 ### 2.3. Pret a ouvrir cette porte
 
