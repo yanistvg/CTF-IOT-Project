@@ -1,5 +1,15 @@
 # Infiltration dans le reseau WIFI
 
+Sommaire:
+
+1. [Avant propos](#1-avant-propos)
+2. [Rappel du sujet](#2-rappel-du-sujet)
+3. [Attaque sur le WIFI](#3-attaque-sur-le-wifi)
+	1. [Scanner les réseaux Wifi](#31-scanner-les-reseaux-wifi)
+	2. [Récuper les tree handcheck](#32-recuper-les-tree-handcheck)
+	3. [Brutforce le mot de passe du réseau Wifi](#33-brutforce-le-mot-de-passe-du-reseau-wifi)
+
+
 ## 1. Avant propos
 
 Pour s'infiltrer sur le réseau Wifi, il faut au préalable avoir une machine qui permet de faire les attaques, qui dispose d'une carte réseau. Si c'est sur une machine virtuel, il faut utiliser un clef USB Wifi dans la VM. Dans cette partie, nous avons utilisé une machine Kali-linux comme OS du système ce qui permet d'utiliser la carte Wifi directement. Si vous voulez utiliser cette méthode sans créer de dual-boot, vous pouvez utiliser une clef USB bootable avec KaliLinux, et démarrer en mode live sur la clef USB, ce qui va vous permettre de faire les même étapes sans causer de problème sur votre système.
