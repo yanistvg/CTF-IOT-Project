@@ -252,4 +252,100 @@ Si avec toute ces étapes les tests des différentes installations fonctionnent,
 
 ### 2.3. Pret a ouvrir cette porte
 
-***`A FAIRE`***
+#### 2.3.1 Création du code de brutforce en JavaCard
+
+Nous allons maintenant pouvoir écrire le code qui permet d'ouvrir la porte. Comme nous l'avons vu précédaement, le code dans la carte fournie, nous avons une vérification d'un code PIN, puis nous avons la demande d'un ID.
+
+Nous pouvons donc faire une carte qui posséde ces même instruction, mais nous pouvons changer le comportement des instruction sans changer la réponse.
+
+Dans notre cas, nous allons faire en sorte que peut importe le mot de passe donnée à la carte, la réponse serat toujours `0x9000`, puis pour l'id, nous allons faire en sorte de donner l'id `1`, puis à l'appel suivant de cette instruction d'incrémenter l'id pour pouvoir faire un brutforce des id.
+
+Dans le répertoire `srcs` se trouve le code qui permet de faire le brutforce de la porte. Pour pouvoir utiliser l'environnement que nous avons créer, nous allons voir pas à pas comment obtenir un fichier que nous pourrons transmettre à la carte qui pourra brutforcer les id.
+
+Pour commencer, il faut créer un nouveau projet dans `Eclipse`, en faisant `File > New > Other ...`. Dans la liste des projet que nous pouvons réaliser, nous devons choisir `Java Card > Java Card Project`. Puis donner le nom du projet comme `BrutforceDoor`. Puis lorsque vous faite `Finish` vous allez avoir une erreur, il faut donner le chemin de `JCDK` donc vous faite `OK`, puis une fenêtre va s'ouvrir, et vous choisissez le répertoir dans `$HOME/jcdk`, puis vous faite `Apply and Close`. Vous aurrez donc le projet qui serra créer.
+
+Nous devons maintenant suivre les étapes suivante: `clique droit sur le projet > Properties > Java Compiler` et cocher la case `Enable project specific setting`, puis changer le `Compiler compliance level` pour avoir la version `1.3`. Puis vous pouvais faire `Apply and Close`.
+
+Il ne nous reste plus qu'une étapes avant de pouvoir faire le code du brutforce. Dans le répertoire du projet il y a un dossier qui se nomme `src`, `faite un clique droit dessue > New > Other > Java Card > Java Card Applet`, puis vous luis donner le nom de `BrutforceDoor` avec comme nom de package `brutforceDoor`. Il ne reste plus qu'a donner les `AID` trouvé précedament. Pour cela `clique droit sur le package > Java Card Tools > Set Package AID`, puis donner l'AID trouver (par défaut, l'`AID` est le même vous n'avais pas à le changer), puis `clique droit le le fichier java > Java Card Tools > Set Applet AID` puis donner l'`AID` trouvé (pour celui-ci il faut changer le dernier octet en `0x01`).
+
+Nous pouvons maintenant coder le brutforce. Le code est disponible [dans le répertoire srcs](./srcs/BrutforceDoor/src/brutforceDoor/BrutforceDoor.java), nous allons visualiser les fonctions principale de ce code car la base de ce code est le même que le code fournie.
+
+Pour commencer, nous avons les déclaration suivante
+
+```java
+	private final static byte code_lock_id[] = {(byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04};
+	private final static byte code_reste_id[] = {(byte)0x04, (byte)0x03, (byte)0x02, (byte)0x01};
+	
+	private final static byte ID_CARD_CLA =(byte)0x80;
+	
+	private static final byte VALIDATE_PIN_INS = 0x22;
+	private static final byte GET_ID_INS       = 0x23;
+
+	private final static short SW_OK_PASSE_TOUT_VA_BIEN = (short)0x9000;
+```
+
+Les deux premier vons nous permettre de pour bloquer l'id contenue dans la carte pour pouvoir ré-ouvrir la porte de manière ilimiter, et de pouvoir aussi reset la carte et recommencer le brutforce. Nous gardons les valeurs pour les instruction est le CLA de l'applet. Nous avons aussi un short qui à pour valeur `0x9000` qui sera utilisé lors de la vérification du code PIN.
+
+Le code contenue dans la méthode `process` reste exactement pareil que le code d'origine. Nous allons maintenant visualiser les deux méthode appeler par le terminal.
+
+```java
+	public void validatePin(APDU apdu) {
+		byte[] buffer = apdu.getBuffer();
+		byte[] code = {0x00, 0x00, 0x00, 0x00};
+		short i;
+		
+		for (i=0; i < 4; i++)
+			code[(short)i] = (byte)buffer[(short)((short)ISO7816.OFFSET_CDATA + (short)i)];
+		
+		if ((byte)code[0] == (byte)code_lock_id[0] &&
+			(byte)code[1] == (byte)code_lock_id[1] &&
+			(byte)code[2] == (byte)code_lock_id[2] &&
+			(byte)code[3] == (byte)code_lock_id[3])
+			lockId = true;
+		
+		if ((byte)code[0] == (byte)code_reste_id[0] &&
+			(byte)code[1] == (byte)code_reste_id[1] &&
+			(byte)code[2] == (byte)code_reste_id[2] &&
+			(byte)code[3] == (byte)code_reste_id[3]) {
+				lockId = false;
+				id[0] = (byte)0x00;
+		}
+		
+		ISOException.throwIt(SW_OK_PASSE_TOUT_VA_BIEN);
+	}
+```
+
+Cette premier méthode permet de vérifier si le code PIN est bon, dans notre cas, nous validons toujours le code PIN, mais lorsque nous recevons `1234`, nous bloquons l'incrementation de l'id, et lorsque nous recevons `4321`, nous remetons à zéro l'id et nous débloquons son incrémentation pour reset la carte.
+
+```java
+	public void getId(APDU apdu) {
+		if (!lockId)
+			id[0] = (byte)((byte)id[0] + (byte)1);
+		
+		apdu.setOutgoing();
+		apdu.setOutgoingLength((short) 1);
+		apdu.sendBytesLong((byte[]) id, (short) 0, (short) 1);
+	}
+```
+
+Pour finir, la méthode `getId` va transmettre son id comme le code d'origine à la différence que nous ne vérifions pas si le PIN à étais dévérouiller, de plus, nous ajoutons 1 à l'id si l'incrémentation n'est pas vérouillé.
+
+#### 2.3.2. Transmitions du code dans la carte à puce
+
+Nous pouvons donc maintenant compiler ce code est le transmettre dans la carte. Pour cela, nous allons faire `clique droit sur le package > Java Card Tools > Generate Script` de cette manière, nous avons un autres package qui est présent `brutforceDoor.javacard` qui contient différent fichier, celui qui nous faut est `brutforceDoor.cap`.
+
+Il faut maintenant, avec un terminal se rendre dans le répertoire qui contient le fichier `brutforceDoor.cap`, puis brancher le lecteur de carte à sont PC, et insérer la carte dans le lecteur de carte. Nous pouvons faire les commandes suivante :
+
+![01_send_cap_file](./imgs/01_send_cap_file.png "01_send_cap_file")
+
+De cette manière, nous avons une instance qui contient bien l'`AID` que nous avons attribuer, ce qui permet d'avoir une carte qui du point de vu du terminal se comporte de manière normale.
+
+#### 2.3.3. Ouverture de la porte
+
+Nous pouvons maintenant munit de notre carte de brutforce ouvrir la porte. Pour cela, nous devons l'insérer dans le lecteur de carte disponible dans la raspberry PI, puis reproduire les étapes suivante (dans cette exemple, nous avons utiliser le même code qui se trouve dans la Raspberry PI mais compiler pour fonctionner pour terminal pour cela vous pouvais aller dans le répertoir [../../srcs/rasp_protector/JavaCard/card_reader/](../../srcs/rasp_protector/JavaCard/card_reader/), pour pouvoir le compiler pour terminal, il faut appliquer les changements indiqué dans le Makefile):
+
+![02_brutforce](./imgs/02_brutforce.png "02_brutforce")
+
+Nous avons donc des tentative t'ouverture de porte qui donne l'erreur `Bad ID` car la carte valide le code PIN, jusqu'à ce que nous ayons le message `Door open`, cela indique que nous avons le bon ID. Nous utilisons le code `1234` qui permet de bloquer l'ID ce qui permet de continuer à pouvoir ouvrir la porte. Pour finir nous arrivons à reset la carte avec le code `4321`.
+
+Nous avons donc réussie à ouvrir la porte et à s'introduire dans la salle que nous voulions accéder.
