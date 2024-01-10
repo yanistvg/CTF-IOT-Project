@@ -1,5 +1,11 @@
 # Rasp CAM
 
+Sommaire:
+
+- [Explication de l'utilisation de cette Raspberry PI](#explication-de-lutilisation-de-cette-raspberry-pi)
+- [Mise en place de l'environnement](#mise-en-place-de-lenvironnement)
+- [Mot de passe de la machine](#mot-de-passe-de-la-machine)
+
 ## Explication de l'utilisation de cette Raspberry PI
 
 Cette raspberry utilise un module camera pour lui permettre de transmettre le flux vidéo. Ce flux vidéo est utilisé par la `Rasp protector` pour déterminer si une personne est présente devant la caméra.
