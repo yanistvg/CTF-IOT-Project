@@ -1,5 +1,11 @@
 # Rasp protector
 
+Sommaire:
+
+- [Explication de l'utilisation de cette Raspberry PI](#explication-de-lutilisation-de-cette-raspberry-pi)
+- [Mise en place de l'environnement](#mise-en-place-de-lenvironnement)
+- [Mot de passe de la machine](#mot-de-passe-de-la-machine)
+
 ## Explication de l'utilisation de cette Raspberry PI
 
 Cette partie permet de faire la mis en place d'une raspberry PI qui va utiliser le flux vidéo de la caméra et identifier la présence d'une personne ou non. La raspberry va utiliser un lecteur de carte à puce pour pouvoir débloquer la porte. Si une personne est présente devant la caméra, il ne faut pas ouvrir la porte même si l'attaque sur le lecteur de carte à fonctionné.

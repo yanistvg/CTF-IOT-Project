@@ -1,5 +1,13 @@
 # scan du réseau
 
+Sommaire:
+
+1. [Avant propos](#1-avant-propos)
+2. [Rappel du sujet](#2-rappel-du-sujet)
+3. [Identification du réseau](#3-identification-du-reseau)
+	1. [Identification des différents élements en réseau](#31-identification-des-differents-elements-en-reseau)
+	2. [Identification des intéractions entre les appareils](#32-identification-des-interactions-entre-les-appareils)
+
 ## 1. Avant propos
 
 Maintenant que nous sommes connecté sur le réseau Wifi, il faut pouvoir scanner le réseau et identifier les différente intéraction des systèmes présent. Pour cette partie, il faut une machine qui dispose d'une carte Wifi de la même manière que la partie de l'infiltration du réseau.
@@ -74,7 +82,7 @@ Nous avons donc trois appareil sur le réseau :
 
 Une des deux Raspberry PI à un port ouvert `8081`. Nous devons donc identifier comment les systèmes communique entre eux.
 
-### 3.1. Identification des intéractions entre les appareils
+### 3.2. Identification des intéractions entre les appareils
 
 Maintenant que nous avons repéré les machines de disponible, nous pouvons identifier comment les machines intéragissent entre eux. Pour cela, nous allons utiliser `Wireshark`.
 

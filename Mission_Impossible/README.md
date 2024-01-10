@@ -1,5 +1,13 @@
 # Mission Impossible
 
+Sommaire:
+
+- [Présentation du CTF](#presentation-du-ctf)
+- [Etapes du challenge](#etapes-du-challenge)
+- [Arboraissance de cette partie](#arboraissance-de-cette-partie)
+- [Fichier de mis en place et de solution](#fichier-de-mis-en-place-et-de-solution)
+- [Mise en place du CTF](#mise-en-place-du-ctf)
+
 ## Présentation du CTF
 
 Cette partie est un projet qui propose un challenge de type CTF (Capture The Flag) qui à pour objectif de trouver un moyen de hacker le système mis en place pour obtenir un flag. Ce challenge est inspiré des film lors de l'intrution dans un batiment sécurisé, il faut ne pas être détecté par les caméras en changeant le flux vidéo, mais aussi déverouiller les portes d'accès.
@@ -44,17 +52,16 @@ Mission_Impossible
  |                            intéragir avec le lecteur de carte
  |
  |- solution                : Ce dossier contient l'ensemble des solutions d'attaque
-                              pour ce challenge
+ |                            pour ce challenge
+ |
+ |- sujet                   : Ce dossier contient le sujet pour les personnes qui
+                              realise ce challenge. Le sujet est disponible en 
+                              Markdown ou en PDF. Il faut aussi avoir l'archive pour
+                              pouvoir completer le challenge
 ```
 
 Dans les sources, pour chaque équipement se trouve les informations de la mise en place détaillé pour pouvoir mettre en place chaque élement.
 
-## Fichier de mis en place et de solution
+## Mis en place du CTF
 
-Un fichier de mise en place est disponible `A faire` pour visualiser comment le projet à étais mis en place dans sont intégralité avec moin d'explication que dans les répertoires.
-
-Un second fichier `A faire` permet d'avoir les étapes de manière détailler pour résoudre le CTF.
-
-## Mise en place du CTF
-
-Pour mettre en place le CTF, il faut utiliser le script d'installation disponible dans chaque dossier sources. Pour la partie du routeur wifi, il n'est pas scripté, mais les étapes de mis en place que nous avons réalisé sont disponible pour pouvoir le reproduire.
+Pour mettre en place le système, vous pouvez suivre les étapes présent dans le répertoir [srcs](./srcs) qui donne les détail complet de mis en place étapes par étapes avec le matèriel utilisé lors de la création du sujet. Il est possible que le challenge ne soit pas compatible avec d'autres matériel que celui utilisé.

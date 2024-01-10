@@ -25,9 +25,8 @@ La liste des élements pour la mise en place :
 ## Mise en place
 
 Pour faire la mise en place du système, il faut suivre les étapes suivante :
- - Mettre en place le réseau. Pour cela, les étapes que nous avons réalisé sont disponible dans le dossier `network`
- - Mettre en place la camera. Pour cela, les étapes de mise en place de cette partie est disponible dans le dossier `rasp_cam`. Il faut bien brancher la raspberry PI au routeur Wifi et vérifiez la bonne connection avec le routeur (il n'est pas possible de communiquer avec internet dans la configuration de ce challenge).
- - Mettre en place la raspberry door protector. Pour cela il faut suivre les étapes du dossier `rasp_protector`. Il faut aussi vérifier la bonne connection avec le routeur, et la camera.
- - Il faut ensuite mettre en place le code de la carte Arduino MEGA en suivant les étapes du dossier `IHM_cardreader`.
- - Nous pouvons mainteant réaliser une carte d'un ancien emplyée en suivant les étapes du dossier `rasp_protector/JavaCard`
- - Une fois toute ces installations faite, il faut brancher la carte Arduino MEGA sur la raspberry PI `rasp_protector`, et y brancher aussi le lecteur de carte. (Si la carte Arduino n'est pas branché au démarrage de la Raspberry PI, il est possible que le code c'est stopper. Il faut donc faire ces branchement avant de mettre la sous tension, et bien attendre quelle seconde avant de brancher le lecteur de carte)
+ - Mettre en place le réseau. Pour cela, les étapes que nous avons réalisé sont disponible dans le dossier [`network`](./network)
+ - Mettre en place la camera. Pour cela, les étapes de mise en place de cette partie est disponible dans le dossier [`rasp_cam`](./rasp_cam). Il faut bien brancher la raspberry PI au routeur Wifi et vérifiez la bonne connection avec le routeur (il n'est pas possible de communiquer avec internet dans la configuration de ce challenge).
+ - Mettre en place la raspberry door protector. Pour cela il faut suivre les étapes du dossier [`rasp_protector`](./rasp_protector). Il faut aussi vérifier la bonne connection avec le routeur, et la camera.
+ - Il faut ensuite mettre en place le code de la carte Arduino MEGA en suivant les étapes du dossier [`IHM_cardreader`](./IHM_cardreader).
+ - Une fois toute ces installations faite, il faut brancher la carte Arduino MEGA sur la raspberry PI [`rasp_protector`](./rasp_protector), et y brancher aussi le lecteur de carte. (Si la carte Arduino n'est pas branché au démarrage de la Raspberry PI, il est possible que le code c'est stopper. Il faut donc faire ces branchement avant de mettre la sous tension, et bien attendre quelle seconde avant de brancher le lecteur de carte)
