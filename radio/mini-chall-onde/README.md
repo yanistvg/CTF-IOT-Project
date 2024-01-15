@@ -66,7 +66,7 @@ Nous pouvons maintenant passer à la résolution du challenge. Pour cela, nous a
 
 Nous avons donc l'antenne de branché avec le logiciel `airspy`. Nous pouvons scanner la fréquence `100.6`.
 
-![scanne](./imgs/02_scanne.png)
+![scanne](./imgs/02_scanne.PNG)
 
 Cette fréquence rend disponible un song qui semble se répéter mais n'est pas compréhenssible. Nous allons ajouter des filtres de diminution de bruits parasite (en haute fréquence) du à l'environnement environnement.
 
