@@ -7,21 +7,12 @@ KeyboardController keyboard(usb);
 bool Maj = false;
 
 void keyPressed() {
-  int mod = keyboard.getModifiers();
-  char ch = keyboard.getOemKey();
+  struct send_char_t key = { 0, 0 };
 
-  String to_send = "";
-  if (ch == 57) {
-    Maj = !Maj;
-  } else {
-    if (Maj || mod == 2)
-      to_send = keymap_Maj[int(ch)];
-    else
-      to_send = keymaps[int(ch)];
-  }
+  key.mod = keyboard.getModifiers();
+  key.ch  = keyboard.getOemKey();
 
-  for(int i=0; i<to_send.length(); i++)
-    Serial1.write(to_send[i]);
+  Serial1.write((char*)&key, sizeof(struct send_char_t));
 }
 
 void keyReleased() {

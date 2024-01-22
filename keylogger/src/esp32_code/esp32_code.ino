@@ -10,6 +10,11 @@ const char *password = "Azerty1234";
 
 WiFiServer server(9999);
 
+struct send_char_t {
+  int mod;
+  char ch;
+};
+
 void setup() {
   Serial1.begin(115200, SERIAL_8N1, RXD1, TXD1);
   Serial1.setTimeout(50);
@@ -23,30 +28,25 @@ void setup() {
 }
 
 void loop() {
+  struct send_char_t key;
 
   WiFiClient client = server.available(); // listen for incoming clients
   if (client) {
     while (client.connected()) {
       if (client.available()) { // attend que le client envoye un caractere
-        String c = client.readString();
-        for(int i=0; i<c.length(); i++) {
-          Serial1.write(c[i]);
-        }
+        client.readBytes((char*)&key, sizeof(struct send_char_t));
+        Serial1.write((char*)&key, sizeof(struct send_char_t));
       }
       if (Serial1.available()) {
-        String c = Serial1.readString();
-        for(int i=0; i<c.length(); i++) {
-          client.write(c[i]);
-          Serial1.write(c[i]);
-        }
+        Serial1.readBytes((char*)&key, sizeof(struct send_char_t));
+        client.write((char*)&key, sizeof(struct send_char_t));
+        Serial1.write((char*)&key, sizeof(struct send_char_t));
       }
     }
     client.stop();
   }
   if (Serial1.available()) {
-    String c = Serial1.readString();
-    for(int i=0; i<c.length(); i++) {
-      Serial1.write(c[i]);
-    }
+    Serial1.readBytes((char*)&key, sizeof(struct send_char_t));
+    Serial1.write((char*)&key, sizeof(struct send_char_t));
   }
 }

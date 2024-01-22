@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
 			// affichage des touches sur le terminal
 			// pour le moment avec printf mais evolution possible
 			// si changement de methode de transfert des touches
-			printf("%s", server.buffer);
+			printf("mod = %d\nch = %d\n\n", server.buffer.mod, server.buffer.ch);
 			fflush(stdout);
 		}
 	}
