@@ -74,8 +74,8 @@ int read_keys(void) {
 
 	if (server.sockfd < 0) return _SERVER_NOT_INIT_;
 
-	bzero(server.buffer, sizeof(char)*NET_BUFFER_SIZE);
-	n = read(server.sockfd, server.buffer, sizeof(char)*NET_BUFFER_SIZE);
+	bzero(&server.buffer, sizeof(struct receive_key));
+	n = read(server.sockfd, &server.buffer, sizeof(struct receive_key));
 	if (n < 0)
 		return _ERROR_SRV_READ_;
 

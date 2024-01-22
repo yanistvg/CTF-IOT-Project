@@ -25,9 +25,14 @@
 #include "parser.h"
 #include "returns.h"
 
+struct receive_key {
+	int  mod;
+	char ch;
+};
+
 struct server_interact_t {
 	int                sockfd;
-	char               buffer[NET_BUFFER_SIZE];
+	struct receive_key buffer;
 	struct sockaddr_in serveraddr;
 };
 
