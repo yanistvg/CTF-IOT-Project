@@ -10,19 +10,19 @@ Sommaire:
 	1. [Configurer la Raspberry PI caméra](#21-configurer-la-raspberry-pi-camera)
 	2. [Configurer la raspberry PI protected door](#22-configurer-la-raspberry-pi-protected-door)
 
-Dans cette section, nous allons voir comment nous avons fait pour mettre en place les diférents éléments en réseau.
+Dans cette section, nous explorerons la procédure que nous avons suivie pour configurer les différents éléments en réseau.
 
 ## 1. Configuration du switch WiFi
 
-Pour commencer, nous avions un switch Wifi ***Linksys***
+Pour démarrer, nous avions un commutateur WiFi ***Linksys***
 
 ![Switch picture](./pictures/01_switch.png "Switch picture")
 
-Nous avons choisie de prendre comme addresse de réseau `192.168.1.0` avec un masque de sous-réseau `255.255.255.248` ce qui nous donne $2^{3} - 2 = 6$ addresse IP utilisable pour le projet. Ce nombre d'addresse IP est suffisant car nous devons avoir le switch, deux raspberry PI, ce qui laisse trois attaquant possible.
+Nous avons choisi d’utiliser l’adresse de réseau `192.168.1.0` avec un masque de sous-réseau `255.255.255.248` ce qui nous donne $2^{3} - 2 = 6$ adresses IP utilisables pour le projet. Ce nombre d’adresses IP est suffisant, car nous devons inclure le switch, deux Raspberry Pi, laissant ainsi la possibilité d’avoir trois attaquants potentiels.
 
 ### 1.1. Configuration du réseau et du DHCP
 
-Nous avons commencer par changer la configuration des plages d'adresse réseau du switch via l'interface d'administration du switch `username :admin; password: admin` par défaut.
+Nous avons commencé par modifier la configuration des plages d’adresses réseau du commutateur via l’interface d’administration du switch `username :admin; password: admin` par défaut.
 
 ![Configuration du DHCP](./pictures/02_config_dhcp.png "Configuration du DHCP")
 
@@ -34,28 +34,25 @@ Nous avons ensuite réalisé la configuration du wifi en changeant le nom du ré
 
 ![Configuration du wifi 2](./pictures/04_config_wireless_password.png "Configuration du wifi 2")
 
-Nous avons donc le réseau wifi `CTF-IOT-2SU` qui a pour mot de passe `2SU-ZP-v9-18`. Pour l'étape du piratage de ce mot de passe nous donnerons un format dans l'énoncer pour que ce soit plus facile à faire en brutforce, car nous voulions un mot de passe qui n'est pas dans une Wordlists mais qui soit pas trop long avec du brutforcing.
+Nous avons mis en place le réseau WiFi `CTF-IOT-2SU` avec le mot de passe `2SU-ZP-v9-18`. Pour faciliter l’attaque par bruteforce, nous avons fourni un format dans l’énoncé pour obtenir un mot de passe qui ne se trouve pas dans une liste de mots courants tout en restant relativement court.
 
 ### 1.3. Configuration de l'interface admin du switch
 
-Par la suite, nous avons pu faire le changement du mot de passe de l'admin de l'interface du switch.
+Ensuite, nous avons réussi à changer le mot de passe de l’administrateur de l’interface du switch.
 
 ![Configuration admin passwd](./pictures/05_config_passwd_admin.png "Configuration admin passwd")
 
-Nous avons donné comme mot de passe pour la partie administrateur du switch `njvn43mf`.
+Nous avons défini le mot de passe pour l’administrateur du switch comme `njvn43mf`.
 
 ## 2. Configuration des raspberry PI
 
-Dans ce projet, nous avons deux Raspberry PI et nous devons faire en sorte que celle-ci soit dans le même réseau. Il nous faut une raspberry connecté en Wifi (pour pouvoir faire l'attaque sur le wifi et pouvoir se connecter ua réseau), et la seconde connecté en filaire.
+Dans le projet, deux Raspberry Pi sont utilisées : l’une connectée en WiFi (pour l’attaque sur le WiFi et l’accès au réseau), et l’autre connectée en filaire, qui agira en tant que caméra.
 
-La raspberry connecté en filaire serat la camera.
-
-Dans la suite de se document, nous allons voir comment configurer les raspberry PI pour qu'elles soit dans le réseau mais le script d'installation ferrat cette configuration automatiquement.
+La configuration détaillée des Raspberry Pi pour les intégrer au réseau sera abordée ultérieurement dans le document. Cependant, le script d’installation automatisera cette configuration.
 
 ### 2.1. Configurer la Raspberry PI caméra
 
-
-Pour cette Raspberry PI, nous voulons avoir la comme addresse IP `192.168.1.2/29`
+Pour la Raspberry Pi connectée en filaire, nous avons attribué l’adresse IP `192.168.1.2/29`
 
 ```bash
 $ cat /etc/network/interfaces
@@ -92,11 +89,12 @@ rtt min/avg/max/mdev = 1.277/1.363/1.517/0.108 ms
 $
 ```
 
-Avec ces étapes, la raspberry PI qui joue le role de la caméra et maintenant connecté dans le réseau (il se peut qu'après la commande `systemctl restart networking.service`, la raspberry n'est pas l'adresse IP attribué statiquement. Dans ce cas il faut la redémarrer `reboot`).
+Après ces étapes, la Raspberry Pi, qui fait office de caméra, est désormais connectée au réseau. Notez que suite à la commande `systemctl restart networking.service`, il se peut que l’adresse IP statiquement attribuée ne soit pas effective immédiatement. Dans ce cas,
+un redémarrage de la Raspberry Pi est nécessaire `reboot`.
 
 ### 2.2. Configurer la raspberry PI protected door
 
-Pour cette Raspberry PI, nous voulons avoir la comme addresse IP `192.168.1.3/29`
+Pour la Raspberry Pi connectée en WiFi, nous avons attribué l’adresse IP `192.168.1.3/29`
 
 ```bash
 $ cat /etc/network/interfaces
@@ -144,4 +142,4 @@ rtt min/avg/max/mdev = 1.277/1.363/1.517/0.108 ms
 $
 ```
 
-Avec ces étapes, la raspberry PI qui joue le role de protection de la porte et maintenant connecté dans le réseau (il se peut qu'après la commande `systemctl restart networking.service`, la raspberry n'est pas l'adresse IP attribué statiquement. Dans ce cas il faut la redémarrer `reboot`).
+La Raspberry Pi dédiée à la protection de la porte est maintenant connectée au réseau. Après la commande  `systemctl restart networking.service` si l’adresse IP statiquement attribuée ne prend pas effet, un redémarrage `reboot` de la Raspberry Pi peut être nécessaire.
