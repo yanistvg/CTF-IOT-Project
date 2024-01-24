@@ -23,4 +23,12 @@
 #define _SERVER_NOT_INIT_   4
 #define _ERROR_SRV_READ_    5
 
+// erreur file_io
+#define _ERROR_OPEN_OUT_FILE_    1
+#define _ERROR_FILE_NOT_OPEN_    2
+#define _ERROR_WRITE_FILE_       3
+#define _ERROR_OPEN_REPLAY_FILE_ 4
+#define _ERROR_READING_FILE_     5
+#define _KEY_NOT_FOUND_          6
+
 #endif
