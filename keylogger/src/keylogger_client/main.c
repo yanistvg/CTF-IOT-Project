@@ -18,6 +18,7 @@
 
 #include "libs/headers/parser.h"
 #include "libs/headers/server_interact.h"
+#include "libs/headers/file_io.h"
 
 #include "libs/headers/colors.h"
 #include "libs/headers/returns.h"
@@ -43,10 +44,79 @@ int main(int argc, char **argv) {
 	}
 
 	/*
+	*  Si le flag de replay est active dans le parser, rejouer le fichier de
+	*  sauvegarde des touches
+	*/
+	if ((parser.parser & PARSER_FLAG_REPLAY) == PARSER_FLAG_REPLAY) {
+		if (open_replay_file() != _SUCCESS_) {
+			printf("%sLors de l'ouverture du fichier de replay\n", NOK);
+			return _ERROR_OPEN_REPLAY_FILE_;
+		}
+		printf("%sLors de l'ouverture du fichier de replay\n", OK);
+		func_ret = replay_saved_file(); // rejoue le fichier
+		if (func_ret != _SUCCESS_)
+			printf("%sFail durant la lecture du fichier de replay\n", NOK);
+		closed_files(); // ferme les fichier ouvert
+		return _SUCCESS_;
+	}
+
+	/*
+	*  Si le flag d'exportation de fichier est active, exporter le contenue
+	*  du fichier de sauvegarde en fichier texte
+	*/
+	if ((parser.parser & PARSER_FLAG_EXPORT) == PARSER_FLAG_EXPORT) {
+		if (open_export_file() != _SUCCESS_) {
+			printf("%sLors de l'ouverture du fichier d'exportation : %s%s%s\n", NOK, YELLOW, parser.exp, DEFAULT_COLOR);
+			return _ERROR_OPEN_REPLAY_FILE_;
+		}
+		printf("%sLors de l'ouverture du fichier d'exportation : %s%s%s\n", OK, YELLOW, parser.exp, DEFAULT_COLOR);
+		if (open_export_file_txt() != _SUCCESS_) {
+			printf("%sLors de l'ouverture du fichier d'exportation destination : %s%s.txt%s\n", NOK, YELLOW, parser.exp, DEFAULT_COLOR);
+			closed_files();
+			return _ERROR_OPEN_REPLAY_FILE_;
+		}
+		printf("%sLors de l'ouverture du fichier d'exportation destination : %s%s.txt%s\n", OK, YELLOW, parser.exp, DEFAULT_COLOR);
+		
+		// ecrire le resultat dans le fichier
+		func_ret = write_export_file_to_text();
+		if (func_ret != _SUCCESS_)
+			printf("%sLors de l'exportation du fichier de sauvegarde\n", NOK);
+		else
+			printf("%sLors de l'exportation du fichier de sauvegarde\n", OK);
+
+		closed_files();
+		return func_ret;
+	}
+
+
+
+	// si les flag de replay, export, convert ne sont pas utilise et que
+	// pas de target ni de port afficher le man
+	if ((parser.parser & PARSER_FLAG_TARGET) != PARSER_FLAG_TARGET ||
+		(parser.parser & PARSER_FLAG_PORT) != PARSER_FLAG_PORT        ) {
+		parser_man(func_ret);
+		return func_ret;
+	}
+
+	/*
 	*  Ouverture des fichiers si les flags sont active. En cas
 	*  d'erreur de l'ouverture, stopper l'execution
 	*/
-	// A Faire
+	func_ret = open_file_output(); // ouverture d'un fichier de sortie
+	if (func_ret != _SUCCESS_) {
+		printf("%sLors de l'ouverture du fichier de sortie ", NOK);
+		if ((parser.parser & PARSER_FLAG_OUTPUT) == PARSER_FLAG_OUTPUT)
+			printf("%s%s%s\n", YELLOW, parser.output, DEFAULT_COLOR);
+		else printf("%s%s%s\n", YELLOW, DEFAULT_FILE, DEFAULT_COLOR);
+		return func_ret;
+	} else {
+		printf("%sOuverture du fichier de log des touches : ", OK);
+		if ((parser.parser & PARSER_FLAG_OUTPUT) == PARSER_FLAG_OUTPUT)
+			printf("%s%s%s\n", YELLOW, parser.output, DEFAULT_COLOR);
+		else printf("%s%s%s\n", YELLOW, DEFAULT_FILE, DEFAULT_COLOR);
+	}
+
+	// A faire fichier d'input si on garde la possibilite d'envoyer des touches
 
 	/*
 	*  Ouverture de la connection avec le serveur. Stopper l'execution
@@ -55,7 +125,7 @@ int main(int argc, char **argv) {
 	func_ret = init_server_connection();
 	if (func_ret != _SUCCESS_) {
 		printf("%sConnection au serveur\n", NOK);
-		// fermer les fichier ouvert
+		close_files_and_network();
 		return func_ret;
 	} else {
 		printf("%sConnection au serveur\n", OK);
@@ -81,13 +151,12 @@ int main(int argc, char **argv) {
 			return func_ret;
 		}
 		
-		if ((parser.parser & PARSER_FLAG_VERBOSE) == PARSER_FLAG_VERBOSE) {
-			// affichage des touches sur le terminal
-			// pour le moment avec printf mais evolution possible
-			// si changement de methode de transfert des touches
-			printf("mod = %d\nch = %d\n\n", server.buffer.mod, server.buffer.ch);
-			fflush(stdout);
-		}
+		// affichage sur le terminal si option verbose active
+		if ((parser.parser & PARSER_FLAG_VERBOSE) == PARSER_FLAG_VERBOSE)
+			show_key_on_terminal(server.buffer, 0);
+
+		// sauvegarder la touche dans le fichier de sortie
+		write_key_outfile(server.buffer);
 	}
 
 	return _SUCCESS_;
@@ -104,7 +173,7 @@ void signal_stoppe_exec(int code) {
 
 void close_files_and_network(void) {
 	// fermer les fichier ouvert
-	// A faire lorsque la gestion des fichier sera fait
+	closed_files();
 
 	// fermer le connection au server
 	if (server.sockfd > 0) {

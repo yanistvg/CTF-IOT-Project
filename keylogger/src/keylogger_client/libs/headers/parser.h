@@ -23,19 +23,24 @@
 #define MAX_SIZE_FILE 100
 
 // definition des flags pour le parser
-#define PARSER_FLAG_HELP    0x01
-#define PARSER_FLAG_VERBOSE 0x02
-#define PARSER_FLAG_OUTPUT  0x04
-#define PARSER_FLAG_INTPUT  0x08
-#define PARSER_FLAG_TARGET  0x10
-#define PARSER_FLAG_PORT    0x20
+#define PARSER_FLAG_HELP    0x0001
+#define PARSER_FLAG_VERBOSE 0x0002
+#define PARSER_FLAG_OUTPUT  0x0004
+#define PARSER_FLAG_INTPUT  0x0008
+#define PARSER_FLAG_TARGET  0x0010
+#define PARSER_FLAG_PORT    0x0020
+#define PARSER_FLAG_REPLAY  0x0040
+#define PARSER_FLAG_EXPORT  0x0080
+#define PARSER_FLAG_CONVERT 0x0100
 
 // strcuture du parser
 struct parser_t {
 	int  parser;                 // flags des parser
 	char output[MAX_SIZE_FILE];  // fichier d'output
 	char input[MAX_SIZE_FILE];   // fichier d'input
-	char target[MAX_SIZE_FILE]; // IP du serveur
+	char target[MAX_SIZE_FILE];  // IP du serveur
+	char replay[MAX_SIZE_FILE];  // fichier de replay
+	char exp[MAX_SIZE_FILE];     // fichier a exporter
 	int  port;                   // port du serveur
 };
 
