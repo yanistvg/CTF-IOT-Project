@@ -10,7 +10,7 @@ Sommaire:
 
 ## 1. Avant propos
 
-Maintenant que nous sommes connecté sur le réseau Wifi, il faut pouvoir scanner le réseau et identifier les différente intéraction des systèmes présent. Pour cette partie, il faut une machine qui dispose d'une carte Wifi de la même manière que la partie de l'infiltration du réseau.
+Maintenant que nous sommes connectés au réseau WiFi, il faut scanner le réseau et identifier les différentes interactions des systèmes présents. Pour cette étape, une machine dotée d’une carte WiFi est nécessaire, de la même manière que pour la phase d’infiltration du réseau.
 
 ## 2. Rappel du sujet
 
@@ -18,13 +18,13 @@ Maintenant que nous sommes connecté sur le réseau Wifi, il faut pouvoir scanne
 
 ***Pour que cette attaque soit indétectable, vous devez passer devant la caméra sans être vu, puis trouver un moyen de pirater le système de carte et ainsi ouvrir la porte.***
 
-Nous avons réussi à nous connectez au réseau Wifi, il faut maintenant que nous puissions comprendre comment les différent système communique entre eux sans couper la connection au différent élements car cela est détecté, et visible avec un indicateur limineux.
+Nous avons réussi à nous connecter au réseau WiFi. Maintenant, nous devons comprendre comment les différents systèmes communiquent entre eux sans interrompre la connexion aux différents éléments, car cela serait détecté, visible avec un indicateur lumineux.
 
 ## 3. Identification du réseau
 
 ### 3.1. Identification des différents élements en réseau
 
-Pour commencer, nous devons identifier les différents système qui sont disponible sur le réseau. Pour cela nous allons utiliser `nmap` pour scanner toute les adresse IP et trouver les appareils en réseau.
+Pour débuter, nous devons identifier les différents systèmes disponibles sur le réseau. Pour ce faire, nous utiliserons `nmap` pour scanner toutes les adresses IP et repérer les appareils en réseau
 
 ```bash
 $ ifconfig wlan0
@@ -40,9 +40,9 @@ wlan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500
 $
 ```
 
-Nous pouvons constater que le mask de sous-réseau que nous avons est `255.255.255.248` se qui permet de résuire le nombre de scan à réaliser.
+Nous constatons que le masque de sous-réseau que nous avons est `255.255.255.248`, ce qui permet de réduire le nombre de scans à réaliser.
 
-La plage d'adresse IP disponible dans ce réseau est comprit entre `[ 192.168.1.1 ; 192.168.1.6 ]`. Nous pouvons donc faire le scan avec `nmap` de ces adresse IP.
+La plage d’adresse IP disponible dans ce réseau est comprise entre `[ 192.168.1.1 ; 192.168.1.6 ]`. Nous pouvons donc effectuer le scan avec `nmap` de ces adresses IP.
 
 ```bash
 $ nmap -Pn 192.168.1.1-6
@@ -75,20 +75,21 @@ MAC Address: B8:27:EB:B9:42:13 (Raspberry Pi Foundation)
 $
 ```
 
-Nous avons donc trois appareil sur le réseau :
+Nous avons donc identifié trois appareils sur le réseau :
  - 192.168.1.1 : routeur Wifi
  - 192.168.1.2 : Raspberry PI
  - 192.168.1.5 : Raspberry PI
 
-Une des deux Raspberry PI à un port ouvert `8081`. Nous devons donc identifier comment les systèmes communique entre eux.
+L’une des deux Raspberry Pi a un port ouvert, le port `8081`. Nous devons maintenant identifier la manière dont les systèmes communiquent entre eux.
 
 ### 3.2. Identification des intéractions entre les appareils
 
-Maintenant que nous avons repéré les machines de disponible, nous pouvons identifier comment les machines intéragissent entre eux. Pour cela, nous allons utiliser `Wireshark`.
+Maintenant que nous avons repéré les machines disponibles, nous pouvons identifier comment les machines interagissent entre elles. Pour ce faire, nous utiliserons `Wireshark`.
 
-Lorsque nous utilisons directement `wireshark` pour écouter de manière passif ce qui se passe dans la réseau, nous n'avons que des trames `ARP`, et des trames du routeur. Ce qui nous intéresse c'est de pouvoir visualiser la communication entre les deux Raspberry PI. Pour cela, nous allons faire des modifications de la manière dont nous faisont l'écoute du réseau pour passer de passif à semi-actif.
+Lorsque nous utilisons directement `wireshark` pour écouter de manière passive ce qui se passe dans le réseau, nous obtenons principalement des trames `ARP`, et des trames du routeur. Ce qui nous intéresse, c’est de pouvoir visualiser la communication entre les deux Raspberry Pi. Pour cela, nous allons modifier notre approche de l’écoute du réseau,
+passant d’une écoute passive à une écoute semi-active.
 
-Pour cela, nous devons passer notre carte réseau Wifi en mode moniteur. Nous pouvons aussi en profiter pour changer l'adresse MAC de notre carte réseau:
+Pour ce faire, nous devons mettre notre carte réseau WiFi en mode moniteur. Nous pouvons également en profiter pour changer l’adresse MAC de notre carte réseau :
 
 ```bash
 $ ifconfig wlan0 down
@@ -110,9 +111,9 @@ wlan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500
 $
 ```
 
-De cette manière, nous avons changez notre adresse `MAC` et mis la carte réseau en mode moniteur.
+De cette manière, nous avons changé notre adresse `MAC` et mis la carte réseau en mode moniteur.
 
-Avant de pouvoir réutiliser `Wireshark`, nous allons faire un `Man In The Middle` entre les deux Raspberry PI pour pouvoir intercepter tous les paquêtes échangé. Pour cela nous devons utiliser deux terminal.
+Avant de pouvoir réutiliser `Wireshark`, , nous allons effectuer une attaque `Man In The Middle` entre les deux Raspberry Pi pour intercepter tous les paquets échangés. Pour ce faire, nous aurons besoin de deux terminaux.
 
 ```bash
 # Premier terminal
@@ -124,27 +125,28 @@ $ arpspoof -i wlan0 -t 192.168.1.2 192.168.1.5
 $ arpspoof -i wlan0 -t 192.168.1.5 192.168.1.2
 ```
 
-Cela permet d'envoyer des requêtes `ARP` au deux Raspberry PI,  pour que lors de communication entre elle, il faut passer par l'adresse `MAC` ça machine. Ce qui permet de récupérer touts les paquêtes des deux machines. Si nous exécutons seulement cela, la Raspberry PI qui a les voyant lumineux va détecter un problème dans le réseau.
+Cela consiste à envoyer des requêtes `ARP` aux deux Raspberry Pi, de sorte que lorsqu’elles communiquent entre elles, elles doivent passer par l’adresse `MAC` de notre machine. Cela nous permet de récupérer tous les paquets échangés entre les deux machines. Cependant, si nous exécutons uniquement cette étape, la Raspberry Pi avec les voyants lumineux
+détectera un problème dans le réseau.
 
 ![Wifi break](./imgs/01_network_break.png "Wifi break")
 
-Cela est du au faite que notre machine récupére les paquêtes, mais ne les redirige pas. Pour régler ce problème il faut activer l'`IP forwarding` avec la commande suivante:
+Cela est dû au fait que notre machine récupère les paquets, mais ne les redirige pas. Pour résoudre ce problème, il faut activer l'`IP forwarding` avec la commande suivante:
 
 ```bash
 $ echo 1 > /proc/sys/net/ipv4/ip_forward
 $
 ``` 
 
-De cette manière, nous pouvons maintenant écouter les communications entre les deux machines sans avoir de coupure réseau entre les Raspberry PI.
+Ainsi, nous pouvons désormais écouter les communications entre les deux machines sans avoir de coupure réseau entre les Raspberry Pi.
 
-Nous pouvons donc mainteant utiliser `Wireshark`
+Nous pouvons maintenant utiliser  `Wireshark`
 
 ![wireshark](./imgs/02_capture_wireshark.png "wireshak")
 
-Dans cette capture réseau, nous pouvons identifier que la Raspberry PI `192.168.1.5` fait des requêtes `TCP` sur le port `8081` à la Raspberry PI `192.168.1.2`. Nous pouvons donc suivre une requêtes qui est effectuer en faisant `click droit` sur le requête, puis `suivre`, `Flux TCP`. De cette manière nous obtenons la communication qui c'est effectuer.
+Dans cette capture réseau, nous pouvons identifier que la Raspberry Pi `192.168.1.5` effectue des requêtes `TCP` sur le port `8081` en direction de la Raspberry Pi `192.168.1.2`. Nous pouvons donc suivre une requête en effectuant un `click droit` sur celle-ci, puis en sélectionnant `suivre`, et enfin `Flux TCP`. De cette manière, nous obtenons le contenu de la communication qui s’est effectuée.
 
 ![tcp](./imgs/03_tcp_capture.png "tcp")
 
-Nous pouvons donc déterminer que `192.168.1.5` fait une requête `HTTP` vers `192.168.1.2` via un scipt python. La réponse de `192.168.1.2` contient `Content-type: image/jpeg` dans les métadonnées `HTTP`, nous pouvons donc déduire que c'est de cette manière que `192.168.1.5` récupére l'image de la caméra et fait l'identification de présence.
+Nous pouvons déduire que `192.168.1.5` effectue une requête `HTTP` vers `192.168.1.2`  via un script Python. La réponse de `192.168.1.2` contient `Content-type: image/jpeg` dans les métadonnées `HTTP`, ce qui nous permet de conclure que c’est ainsi que `192.168.1.5` récupère l’image de la caméra et effectue la détection de présence.
 
-Il faut donc, pour pouvoir passer devant la caméra, modifier le trafic pour que l'image soit constant pour que la détection de présence ne puisse se faire avec le flux de la caméra.
+Afin de passer devant la caméra sans être détecté, il est nécessaire de modifier le trafic de manière à ce que l’image soit constante, empêchant ainsi la détection de présence basée sur le flux de la caméra

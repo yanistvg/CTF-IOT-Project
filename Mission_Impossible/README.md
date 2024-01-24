@@ -10,11 +10,11 @@ Sommaire:
 
 ## Présentation du CTF
 
-Cette partie est un projet qui propose un challenge de type CTF (Capture The Flag) qui à pour objectif de trouver un moyen de hacker le système mis en place pour obtenir un flag. Ce challenge est inspiré des film lors de l'intrution dans un batiment sécurisé, il faut ne pas être détecté par les caméras en changeant le flux vidéo, mais aussi déverouiller les portes d'accès.
+Cette section présente un projet axé sur un défi de type CTF (Capture The Flag), où l’objectif est de hacker un système établi afin d’obtenir un "flag". Le défi tire son inspiration des scénarios de films impliquant l’intrusion dans des bâtiments sécurisés. Les participants doivent éviter d’être détectés par les caméras en altérant le flux vidéo tout en déverrouillant les portes d’accès.
 
 ## Etapes du challenge
 
-Ce challenge est composé en trois partie :
+Ce défi se divise en trois parties :
  - Piratage d'un réseau WIFI pour s'y introduire
  - Scan du réseau pour identifier les différent élements du réseau
  - Détournement d'un flux vidéo pour passer devant une camera et avoir accès physiquement à un lecteur de carte
@@ -22,7 +22,7 @@ Ce challenge est composé en trois partie :
 
 ## Arboraissance de cette partie
 
-L'arboraissance de cette partie est définie ci-dessous
+Le projet se présente sous l’arboraissance suivante :
 ```text
 Mission_Impossible
  |
@@ -60,8 +60,8 @@ Mission_Impossible
                               pouvoir completer le challenge
 ```
 
-Dans les sources, pour chaque équipement se trouve les informations de la mise en place détaillé pour pouvoir mettre en place chaque élement.
+Dans les sources, pour chaque équipement se trouvent les informations de la mise en place détaillées pour pouvoir mettre en place chaque élément.
 
-## Mis en place du CTF
+## Mise en place du CTF
 
-Pour mettre en place le système, vous pouvez suivre les étapes présent dans le répertoir [srcs](./srcs) qui donne les détail complet de mis en place étapes par étapes avec le matèriel utilisé lors de la création du sujet. Il est possible que le challenge ne soit pas compatible avec d'autres matériel que celui utilisé.
+Pour mettre en place le système, vous pouvez suivre les étapes présentes dans le répertoire [srcs](./srcs) qui donne les détails complets de la mise en place étapes par étapes avec le matériel utilisé lors de la création du sujet. Il est possible que le challenge ne soit pas compatible avec d'autres matériels que celui utilisé.

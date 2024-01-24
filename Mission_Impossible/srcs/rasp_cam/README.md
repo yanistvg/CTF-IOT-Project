@@ -8,15 +8,16 @@ Sommaire:
 
 ## Explication de l'utilisation de cette Raspberry PI
 
-Cette raspberry utilise un module camera pour lui permettre de transmettre le flux vidéo. Ce flux vidéo est utilisé par la `Rasp protector` pour déterminer si une personne est présente devant la caméra.
+La Raspberry Pi utilise un module caméra pour transmettre le flux vidéo. Ce flux est exploité par la  `Rasp protector` afin de détecter la présence d’une personne devant la caméra.
 
 ## Mise en place de l'environnement
 
 ***Pour cette partie, nous disposions d'une raspberry PI B, avec l'OS `Raspberry PI OS (Legacy) Lite`***
 
-Il faut créer un utilisateur `user` avec un mot de passe qui n'est pas important (Le mot de passe va être changé par le script). Pour faire l'installation de cette machine il est conseiller de flasher une carte SD pour avoir une machine qui n'a aucun élements. Il faut aussi que la machine soit connecter à un réseau internet fonctionnel. La raspberry utilisé ne dispose pas du WIFI, il faut donc le connecter en filaire. La configuration réseau serat modifier pour pouvoir être intégrer dans le réseau final, donc elle n'aurat plus accès à internet.
+Il était nécessaire de créer un utilisateur `user` avec un mot de passe non critique (qui serait modifié ultérieurement par le script). Pour l’installation, il était recommandé de flasher une carte SD pour obtenir une machine sans éléments préexistants. La Raspberry Pi, dépourvue de WiFi, devait être connectée en filaire à un réseau internet fonctionnel.
+La configuration réseau serait modifiée pour s’intégrer dans le réseau final, excluant ainsi l’accès à internet.
 
-Avant de commancer la mis en place par le script, il faut activer le module camera:
+Avant de débuter l’installation via le script, l’activation du module caméra était requise.
 ```sh
 raspi-config
 	# what user should these settings apply to? -> user
@@ -24,11 +25,11 @@ raspi-config
 	# une fois terminer appuyer sur echap
 ```
 
-Maintenant nous pouvons brancher la caméra à la raspberry PI comme l'image ci-dessous.
+Maintenant, nous pouvons connecter la caméra à la Raspberry Pi comme illustré dans l’image ci-dessous.
 
 ![Cam connected](./imgs/01_rasp_conntec_cam.png "Cam connected")
 
-Pour mettre en place l'environnement de cette raspberry, il faut utiliser le script en temps que root disponible dans ce répertoir :
+Pour configurer l’environnement de cette Raspberry Pi, veuillez utiliser le script en tant que superutilisateur (root), disponible dans ce répertoire :
 
 ```sh
 apt update -y
@@ -39,7 +40,7 @@ cd CTF-IOT-Project/Mission_Impossible/srcs/rasp_cam
 sh auto-config.sh
 ```
 
-Le script va utiliser les source de ce repos pour les mettres en place sur le raspberry, et rendre disponible cette machine.
+Le script utilisera les sources de ce repos pour les mettre en place sur la Raspberry Pi et rendre cette machine disponible.
 
 ***Si lors du démarrage le stream vidéo n'est pas disponible vous pouvez executer les commandes suivante pour le rectifier***
 
@@ -52,7 +53,7 @@ motion
 
 ## Mot de passe de la machine
 
-Le script va changer les mot de passe des utilisateur de la machine, les mots de passe qui seront mis sont définie ci-dessous
+Le script modifiera les mots de passe des utilisateurs de la machine. Les nouveaux mots de passe sont définis comme suit :
 
 | Utilisateur | Mot de passe |
 |-------------|--------------|

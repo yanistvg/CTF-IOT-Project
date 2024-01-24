@@ -9,29 +9,30 @@ Sommaire:
 
 ## Introduction
 
-Dans cette partie, nous avons proposons un challenge qui porte sur les ondes. L'objectif de ce challenge est de réussir un récupérer une clef de chiffrement qui permet déchiffrer un message.
+Dans cette partie, nous proposons un challenge lié aux ondes. L’objectif de ce challenge est de réussir à récupérer une clé de chiffrement permettant de déchiffrer un message.
 
-Pour ce challenge, vous devez disposer d'une `Raspberry PI 3 B` avec `Raspberry PI OS (Legacy) Lite` installer sur cette dernière. Il vous faut aussi un fils.
+Pour participer à ce challenge, vous devez disposer d’une `Raspberry PI 3 B` avec `Raspberry PI OS (Legacy) Lite` installé. Vous aurez également besoin d’un fil.
 
-Pour pouvoir résoudre le challenge, vous devez disposer d'une antenne ***DVB-T+FM+DAB 820T2 & SDR*** et pour notre solution d'un ordinateur sur Windows.
+Pour résoudre le challenge, vous devez posséder une antenne ***DVB-T+FM+DAB 820T2 & SDR*** et, pour notre solution, un ordinateur sous Windows.
 
 ## Sujet du challenge
 
-Nous avons trouvé un appareil suite à une apparition d'une chaine de radio. Lorsque nous avons trouvé l'appareil, nous avons réussie à récupérer un message.
+Nous avons trouvé un appareil suite à l’apparition d’une chaîne de radio. Lorsque nous avons repéré l’appareil, nous avons réussi à récupérer un message.
 
 ```text
 CUK-2WX{URE_WBLRE_LP_KAFT_CJIYTQVJ_TRDE_PQGAVYOOWD_MN_ZKO}
 ```
 
-Quand cette appareil est branché, la station radio est rendu disponible mais le sonf transmit n'est pas compréhenssbile. Votre mission est de trouver un moyen de comprendre ce qui est transmit par la station radio sur la fréquence `100.6`, et trouver un moyen de lire le message que nous avons récupéré.
+Quand cet appareil est branché, la station radio est rendue disponible, mais le son transmis n’est pas compréhensible. Votre mission est de trouver un moyen de comprendre ce qui est transmis par la station radio sur la fréquence `100.6` et de déchiffrer le message que nous avons récupéré.
 
 ## Mise en place du challenge
 
-Pour mettre en place le challenge, il faut suivre la mise en place décrit dans la partie du [brouilleur d'onde](../brouilleur_d-onde) sans télécharger le code github car un autres code sera utilisé.
+Pour mettre en place le challenge, suivez les étapes décrites dans la partie du [brouilleur d'onde](../brouilleur_d-onde) sans télécharger le code github car un autre code sera utilisé.
 
-Une fois la `Raspberry PI` muni de l'antenne faite à partir du fils, nous pouvons réaliser la suite du challenge. Pour commencer, nous devons réaliser un audio qui contient la clef du chiffrement. Pour ce faire nous avons utilisé le code disponible sur github [`https://github.com/solusipse/spectrology`](https://github.com/solusipse/spectrology).
+Une fois la `Raspberry PI` équipée de l’antenne faite à partir du fil, vous pouvez passer à la suite du challenge. Pour commencer, vous devez créer un fichier audio contenant la clé de chiffrement. Pour ce faire, nous avons utilisé le code disponible sur github [`https://github.com/solusipse/spectrology`](https://github.com/solusipse/spectrology).
 
-Mais avant cela, nous avons réaliser une image au format bmp pour avoir la compatibilité avec le code github. L'image utilisé est la suivant convertie en bmp via un convertisseur en ligne disponible dans le dossier [`ressources`](./ressources/clef.bmp)
+Mais avant cela, nous avons créé une image au format BMP pour assurer la compatibilité avec le code GitHub. L’image utilisée est la suivante, convertie en BMP via un convertisseur en ligne disponible dans le dossier des ressources.
+[`ressources`](./ressources/clef.bmp)
 
 ![clef](./imgs/01_clef.png)
 
@@ -41,9 +42,9 @@ cd spectrology
 python spectrology.py ~/Desktop/clef.bmp -b 13000 -t 19000 -o ~/Desktop/clef.wav
 ```
 
-De cette manière nous avons transfomé le fichier `clef.bmp` en fichier audio `clef.wav` disponible dans le dossier [`ressources`](./ressources/clef.wav).
+De cette manière, nous avons transfomé le fichier `clef.bmp` en fichier audio `clef.wav` disponible dans le dossier [`ressources`](./ressources/clef.wav).
 
-Nous pouvons maintenant procèder a la mise en place de ces différents éléments sur la `Raspberry PI`. Pour cela, vous pouvez exécuter les commande suivante en tant que `root`, et transmettre le fichier `clef.wav` généré précédament. Nous allons utiliser le code github [`https://github.com/ChristopheJacquet/PiFmRds`](https://github.com/ChristopheJacquet/PiFmRds) pour transmettre la clef via les ondes FM.
+Nous pouvons maintenant procèder a la mise en place de ces différents éléments sur la `Raspberry PI`. Pour cela, vous pouvez exécuter les commandes suivante en tant que `root`, et transmettre le fichier `clef.wav` généré précédemment. Nous allons utiliser le code github [`https://github.com/ChristopheJacquet/PiFmRds`](https://github.com/ChristopheJacquet/PiFmRds) pour transmettre la clef via les ondes FM.
 
 ```bash
 git clone https://github.com/ChristopheJacquet/PiFmRds
@@ -52,33 +53,33 @@ make clean
 make
 ```
 
-Puis nous allons modifier le fichier `/etc/rc.local` pour pouvoir exécuter le code au démarrage de la `Raspberry PI`. La lignes est rajouté avant la ligne `exit 0`.
+Puis nous allons modifier le fichier `/etc/rc.local` pour pouvoir exécuter le code au démarrage de la `Raspberry PI`. La ligne est rajouté avant la ligne `exit 0`.
 
 ```text
 /root/pi_fm_rds -audio /root/clef.wav -ps CTF-2SU -rt "CTF IOT" -freq 100.6 &
 ```
 
-De cette manière lors du redémarrage de la `Raspberry PI`, le challenge sera disponible. Nous pouvons mainteant passer à ça résolution.
+De cette manière lors du redémarrage de la `Raspberry PI`, le challenge sera disponible. Nous pouvons maintenant passer à sa résolution.
 
 ## Solution du challenge
 
-Nous pouvons maintenant passer à la résolution du challenge. Pour cela, nous avons une antenne ***DVB-T+FM+DAB 820T2 & SDR***. Nous allons installer le logiciel airspy qui permet de visualiser ce que l'antenne reçoie, le logiciel est [`airspy`](https://airspy.com/download/) (Dans le cas ou l'antenne n'est visible, cette [`video`](https://www.youtube.com/watch?v=j14irB3spPc) peut vous permettre de résoudre cela).
+Nous pouvons maintenant passer à la résolution du challenge. Pour cela, nous disposons d’une antenne ***DVB-T+FM+DAB 820T2 & SDR***. Nous allons installer le logiciel airspy qui permet de visualiser ce que l'antenne reçoit, le logiciel est [`airspy`](https://airspy.com/download/) (Dans le cas ou l'antenne n'est visible, cette [`video`](https://www.youtube.com/watch?v=j14irB3spPc) peut vous permettre de résoudre cela).
 
-Nous avons donc l'antenne de branché avec le logiciel `airspy`. Nous pouvons scanner la fréquence `100.6`.
+Nous avons donc l'antenne de branchée avec le logiciel `airspy`. Nous pouvons scanner la fréquence `100.6`.
 
 ![scanne](./imgs/02_scanne.PNG)
 
-Cette fréquence rend disponible un song qui semble se répéter mais n'est pas compréhenssible. Nous allons ajouter des filtres de diminution de bruits parasite (en haute fréquence) du à l'environnement environnement.
+Cette fréquence rend disponible un son qui semble se répéter mais n’est pas compréhensible. Nous allons ajouter des filtres pour diminuer les bruits parasites (en haute fréquence) causés par l’environnement.
 
 ![filtre](./imgs/03_filtre.png)
 
-Puis nous allons faire un enregistrement de la sequence sur cette fréquence en suivant les étapes suivante : `Selectionner l'icon des trois trait horizontal > Audio: Simple Recorder`, puis lancé un enregistrement pour avoir au moins une sequence. Une fois cela effectuer, vous pouvez utiliser `Audacity` pour ouvrir cette audio.
+Puis, nous allons effectuer un enregistrement de la séquence sur cette fréquence en suivant les étapes suivantes : `Sélectionner l'icône des trois traits horizontaux > Audio: Simple Recorder`, puis lancer un enregistrement pour obtenir au moins une séquence. Une fois cela effectué, vous pouvez utiliser `Audacity` pour ouvrir cet enregistrement.
 
-Nous pouvons maintenant importer cette audio réalisé sur `audacity`. Sur `Audacity`, vous pouvez changer l'apparance de l'audio pour avoir un spectrogramme ce qui nous permet d'avoir ce visualisation suivante.
+Maintenant, vous pouvez importer cet enregistrement réalisé dans `audacity`. Sur `Audacity`, vous pouvez changer l’apparence de l’audio pour obtenir un spectrogramme, ce qui nous permet d’avoir la visualisation suivante.
 
 ![spectrogramme](./imgs/04_spectrogramme.png)
 
-Nous pouvons avec ce spectrogramme visualiser des caractères donne la chaine
+Avec ce spectrogramme, nous pouvons visualiser des caractères qui donnent la chaîne :
 
 ```text
 ABFEDJNMIOINMGDSMSANSIFL
@@ -88,7 +89,7 @@ Nous devons maintenant déterminer ce que le message cache. Pour cela, nous pouv
 
 ![chiffrement analyse](./imgs/05_chiffre_analyse.png)
 
-Nous pouvons déterminer que le chiffrement utiliser est probablement le `chiffrement de vigenère`. Nous pouvons donc utiliser [`cyberChef`](https://gchq.github.io/CyberChef/) pour déchiffrer le message.
+Nous pouvons déterminer que le chiffrement utilisé est probablement le `chiffrement de vigenère`. Nous pouvons donc utiliser [`cyberChef`](https://gchq.github.io/CyberChef/) pour déchiffrer le message.
 
 ![dechiffrement](./imgs/06_dechiffrer.png)
 

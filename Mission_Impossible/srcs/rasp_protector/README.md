@@ -8,19 +8,19 @@ Sommaire:
 
 ## Explication de l'utilisation de cette Raspberry PI
 
-Cette partie permet de faire la mis en place d'une raspberry PI qui va utiliser le flux vidéo de la caméra et identifier la présence d'une personne ou non. La raspberry va utiliser un lecteur de carte à puce pour pouvoir débloquer la porte. Si une personne est présente devant la caméra, il ne faut pas ouvrir la porte même si l'attaque sur le lecteur de carte à fonctionné.
+Cette section concerne la configuration d’une Raspberry Pi qui utilisera le flux vidéo de la caméra pour détecter la présence d’une personne. La Raspberry Pi sera également équipée d’un lecteur de carte à puce pour déverrouiller la porte. Si une personne est détectée devant la caméra, la porte ne doit pas être ouverte, même si une attaque réussit sur le lecteur de carte.
 
 ## Mise en place de l'environnement
 
 ***Pour cette partie, nous disposions d'une raspberry PI 4 B, avec l'OS `Raspberry PI OS (Legacy) Lite`***
 
-Il faut créer un utilisateur `user` avec un mot de passe qui n'est pas important (Le mot de passe va être changé par le script). Pour faire l'installation de cette machine il est conseiller de flasher une carte SD pour avoir une machine qui n'a aucun élements. Il faut aussi que la machine soit connecter à un réseau internet fonctionnel. Il est conseillé de la connecter en filaire. La configuration réseau serat modifier pour pouvoir être intégrer dans le réseau final, donc elle n'aurat plus accès à internet.
+Nous devions créer un utilisateur `user` avec un mot de passe temporaire (à modifier ultérieurement via le script). Pour l’installation, il était recommandé de flasher une carte SD pour obtenir une machine vierge. Il était également nécessaire de connecter la Raspberry Pi à un réseau internet fonctionnel, de préférence via une connexion filaire. La configuration réseau était ajustée pour s’intégrer dans le réseau final, excluant l’accès à Internet.
 
-Le repos git serat cloné depuis internet, vous pouvez simplement copier le scipt `auto-config.sh` sur la machine pour l'exécuter.
+Le dépôt Git étant cloné depuis Internet, mais vous pouvez simplement copier le script `auto-config.sh` sur la machine pour l’exécuter.
 
-Pour mettre en place l'environnement de cette raspberry, il faut utiliser le script dans ce répertoir de manière :
+Pour configurer l’environnement de la Raspberry Pi, l’utilisation du script dans ce répertoire était nécessaire
 
-***L'installation d'opencv pour python sur raspberry PI peux prendre beacoup de temps***
+***L'installation d'opencv pour python sur raspberry PI peut prendre beaucoup de temps***
 
 ```sh
 git clone https://github.com/yanistvg/CTF-IOT-Project.git
@@ -31,11 +31,11 @@ rm -rf CTF-IOT-Project
 reboot
 ```
 
-Le script va utiliser les source de ce repos pour les mettres en place sur le raspberry, et rendre disponible cette machine.
+Le script va utiliser les sources de ce repos pour les mettres en place sur le raspberry, et rendre disponible cette machine.
 
 ## Mot de passe de la machine
 
-Le script va changer les mot de passe des utilisateur de la machine, les mots de passe qui seront mis sont définie ci-dessous
+Le script va modifier les mots de passe des utilisateurs de la machine. Les nouveaux mots de passe sont définis comme suit :
 
 | Utilisateur | Mot de passe |
 |-------------|--------------|
