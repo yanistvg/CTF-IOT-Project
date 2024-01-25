@@ -18,6 +18,10 @@ void loop() {
 
     if (!intercept) {
       processKey(key);
+      Serial.println((int)key.ch);
+      Serial.println((int)key.mod);
+      Serial.println((int)key.buf);
+  
       intercept = true;
     } else {
       intercept = false;
@@ -27,54 +31,14 @@ void loop() {
 
 void processKey(struct send_char_t key) {
 
-  if((key.mod & LEFT_CTRL) == LEFT_CTRL  || (key.mod & RIGHT_CTRL) == RIGHT_CTRL){
-    Keyboard.press(KEY_LEFT_CTRL);
-  }
-  if((key.mod & LEFT_SHIFT) == LEFT_SHIFT  || (key.mod & RIGHT_SHIFT) == RIGHT_SHIFT){
-    Keyboard.press(KEY_LEFT_SHIFT);
-  }
-  if((key.mod & LEFT_CMD) == LEFT_CMD  || (key.mod & RIGHT_CMD) == RIGHT_CMD){
-    Keyboard.press(KEY_HOME);
-  }
-  if((key.mod & ALT) == ALT){
-    Keyboard.press(KEY_LEFT_ALT);
-  }
-  if((key.mod & ALT_GR) == ALT_GR){
-    Serial.print("ALTGR is pressed");  
-    Keyboard.press(KEY_RIGHT_ALT);
-  }
+  if( (key.mod & LEFT_CTRL ) == LEFT_CTRL  || (key.mod & RIGHT_CTRL ) == RIGHT_CTRL ) Keyboard.press(KEY_LEFT_CTRL);
+  if( (key.mod & LEFT_SHIFT) == LEFT_SHIFT || (key.mod & RIGHT_SHIFT) == RIGHT_SHIFT) Keyboard.press(KEY_LEFT_SHIFT);
+  if( (key.mod & LEFT_CMD  ) == LEFT_CMD   || (key.mod & RIGHT_CMD  ) == RIGHT_CMD  ) Keyboard.press(KEY_HOME);
+  if( (key.mod & ALT       ) == ALT                                                 ) Keyboard.press(KEY_LEFT_ALT);
+  if( (key.mod & ALT_GR    ) == ALT_GR                                              ) Keyboard.press(KEY_RIGHT_ALT);
 
-  Keyboard.write(keymaps[key.ch]);
+  Keyboard.write(keymaps[key.ch], sizeof(char)*strlen(keymaps[key.ch]));
 
-  if((key.mod & LEFT_CTRL) == LEFT_CTRL  || (key.mod & RIGHT_CTRL) == RIGHT_CTRL){
-    Keyboard.release(KEY_LEFT_CTRL);
-  }
-  if((key.mod & LEFT_SHIFT) == LEFT_SHIFT  || (key.mod & RIGHT_SHIFT) == RIGHT_SHIFT){
-    Keyboard.release(KEY_LEFT_SHIFT);
-  }
-  if((key.mod & LEFT_CMD) == LEFT_CMD  || (key.mod & RIGHT_CMD) == RIGHT_CMD){
-     Keyboard.release(KEY_HOME);
-}
-  if((key.mod & ALT) == ALT){
-    Keyboard.release(KEY_LEFT_ALT);
-  }
-  if((key.mod & ALT_GR) == ALT_GR){
-    Keyboard.release(KEY_RIGHT_ALT);
-  }
+  Keyboard.releaseAll();
 
 }
-
-
-/*void loop() {
-  String c = "";
-
-  if (Serial1.available() > 0) {
-    c = Serial1.readString();
-    for(int i=0; i<c.length(); i++) {
-      Serial.write(c[i]);
-      Keyboard.write(c[i]);
-    }
-  }
-}*/
-
-
