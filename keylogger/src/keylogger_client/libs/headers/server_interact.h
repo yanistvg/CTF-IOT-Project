@@ -41,5 +41,6 @@ extern struct parser_t parser;
 int init_server_connection(void);
 int close_server_connection(void);
 int read_keys(void);
+int send_key(struct receive_key key);
 
 #endif

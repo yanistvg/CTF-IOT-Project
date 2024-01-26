@@ -78,6 +78,12 @@ int search_parser(const int argc, char **argv) {
 			strcpy(parser.exp, argv[++i]); // recuperation du nom du fichier
 			continue;
 		}
+		// parser qui permet de convertir speudokeylog en keylog
+		if (!strcmp(argv[i], "-c") || !strcmp(argv[i], "--convert")) {
+			parser.parser |= PARSER_FLAG_CONVERT;
+			strcpy(parser.convert, argv[++i]); // recuperation du nom du fichier
+			continue;
+		}
 
 		// Si pas de parametre valide arret du programme avec affichage du man
 		parser.parser |= PARSER_FLAG_HELP;
@@ -117,6 +123,7 @@ void parser_man(int genByError) {
 	printf("\t%s-r <FILE>, --replay <FILE>     :%s permet de rejouer un fichier de sauvegarde des touches\n", YELLOW, DEFAULT_COLOR);
 	printf("\t                                 en prenant en compte le temps decart de reception\n");
 	printf("\t%s-e <FILE>, --export <FILE>     :%s permet d'exporter le fichier de sauvegarde en fichier text\n", YELLOW, DEFAULT_COLOR);
+	printf("\t%s-c <FILE>, --convert <FILE>    :%s permet de compiler un fichier en speudokeylog en keylog\n", YELLOW, DEFAULT_COLOR);
 	printf("\n");
 	printf("%sParametre d'affichage et d'aide%s\n", CYAN, DEFAULT_COLOR);
 	printf("\t%s-v, --verbose                  :%s pour afficher sur le terminal les touches en direct\n", YELLOW, DEFAULT_COLOR);

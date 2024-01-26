@@ -1,3 +1,14 @@
+/***********************************************************************
+* FILENAME :  key_tranform.c
+*
+* DESCRIPTION :
+*       Declaration des fonction qui permmenttent la transformation
+*       des touches recu du keylogger vers un fichier keylog et inversement
+*       de plus est utiliser lors de la compilation du speudokeylog
+*
+* AUTHOR :    Yanis GENY          START DATE :    26 Jan 2024
+************************************************************************/
+
 #include "headers/key_tranform.h"
 #include "headers/keymaps.h"
 
@@ -186,6 +197,38 @@ int found_key_on_keymaps(int key_value, struct keymaps_t *keymap, char *key) {
 	while (keymap->keymap[++i].key_value != 0) {
 		if (keymap->keymap[i].key_value == key_value) {
 			strcpy(key, keymap->keymap[i].char_convert);
+			return _SUCCESS_;
+		}
+	}
+	return _KEY_NOT_FOUND_;
+}
+
+/*
+*  found_value_from_key_speudokeylog permet de trouver la valeur d'un touche a partir
+*  de la touche
+*
+*  input :
+*    char *key     -> touche a convertir
+*    int *keyvalue -> destination de la valeur de la touche
+*
+*  output:
+*    _KEY_NOT_FOUND_ -> si la touche n'est pas presente dans keymap
+*    _SUCCESS_       -> si la touche est trouve
+*/
+int found_value_from_key_speudokeylog(char *key, int *keyvalue) {
+	int i=-1;
+
+	while (origin_keyboard.keymap[++i].key_value != 0) {
+		if (!strcmp(origin_keyboard.keymap[i].char_convert, key)) {
+			*keyvalue = origin_keyboard.keymap[i].key_value;
+			return _SUCCESS_;
+		}
+	}
+
+	i=-1;
+	while (speudokeylog_keyboard.keymap[++i].key_value != 0) {
+		if (!strcmp(speudokeylog_keyboard.keymap[i].char_convert, key)) {
+			*keyvalue = speudokeylog_keyboard.keymap[i].key_value;
 			return _SUCCESS_;
 		}
 	}

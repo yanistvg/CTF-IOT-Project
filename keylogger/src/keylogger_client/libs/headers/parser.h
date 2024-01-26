@@ -41,6 +41,7 @@ struct parser_t {
 	char target[MAX_SIZE_FILE];  // IP du serveur
 	char replay[MAX_SIZE_FILE];  // fichier de replay
 	char exp[MAX_SIZE_FILE];     // fichier a exporter
+	char convert[MAX_SIZE_FILE]; // fichier pour convertir
 	int  port;                   // port du serveur
 };
 
