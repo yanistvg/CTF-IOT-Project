@@ -1,3 +1,14 @@
+/***********************************************************************
+* FILENAME :  key_tranform.h
+*
+* DESCRIPTION :
+*       Fichier qui declare les structures et les fonctions pour traduire
+*       une touche recu par le keylogger en structure pour les fichiers
+*       et inversement
+*
+* AUTHOR :    Yanis GENY          START DATE :    26 Jan 2024
+************************************************************************/
+
 #ifndef __KEY_TRANSFORM_H_
 #define __KEY_TRANSFORM_H_
 
@@ -40,5 +51,6 @@ void tranforme_received_key_to_key(struct receive_key *key, struct save_char_t k
 void show_key_on_terminal(struct receive_key key, int fd);
 void list_mod_key_terminal(int mod, int fd);
 int  found_key_on_keymaps(int key_value, struct keymaps_t *keymap, char *key);
+int  found_value_from_key_speudokeylog(char *key, int *keyvalue);
 
 #endif

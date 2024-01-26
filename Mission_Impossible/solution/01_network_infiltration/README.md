@@ -6,7 +6,7 @@ Sommaire:
 2. [Rappel du sujet](#2-rappel-du-sujet)
 3. [Attaque sur le WIFI](#3-attaque-sur-le-wifi)
 	1. [Scanner les réseaux Wifi](#31-scanner-les-reseaux-wifi)
-	2. [Récuper les tree handcheck](#32-recuper-les-tree-handcheck)
+	2. [Récuperer les three handcheck](#32-recuperer-les-three-handcheck)
 	3. [Brutforce le mot de passe du réseau Wifi](#33-brutforce-le-mot-de-passe-du-reseau-wifi)
 
 
@@ -33,7 +33,7 @@ Pour débuter, nous devons scanner les différents réseaux WiFi. Pour cette att
 
 Une fois que le réseau WiFi ciblé est visible dans la liste, appuyez sur les touches `Ctrl+C` pour arrêter le scan.
 
-### 3.2. Récuper les tree handcheck
+### 3.2. Récuperer les three handcheck
 
 Après avoir obtenu la liste des réseaux WiFi disponibles, sélectionnez le réseau sur lequel vous souhaitez effectuer l’attaque.
 
