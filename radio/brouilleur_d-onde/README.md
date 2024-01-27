@@ -35,7 +35,7 @@ Cela nous permet de remplacer, à la fréquence `89.6`, le son transmis en FM pa
 
 La vidéo suivante montre le remplacement du song de la radio
 
-[![video de test](http://img.youtube.com/vi/T1Tbs9OprG4/0.jpg)](https://youtu.be/T1Tbs9OprG4)
+[![video de demonstration du brouilleur](http://img.youtube.com/vi/T1Tbs9OprG4/0.jpg)](https://youtu.be/T1Tbs9OprG4)
 
 Un brouilleur de manière normale, rend indisponible un service. Dans notre cas, nous effectuons un remplacement par une autre musique. Si nous voulions créer un brouilleur en rendant la radio indisponible, nous aurions dû transmettre un signal sans audio.
 
