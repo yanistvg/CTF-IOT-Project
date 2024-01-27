@@ -14,3 +14,7 @@ Le projet est composé de plusieurs parties :
  3. Une multitude de mini-projet réalisé sur des ondes hertzienne disponible dans le répertoire [`radio`](./radio)
 
 Toutes les explications pour chaque partie sont disponibles dans les répertoires indiqués. Vous trouverez les mises en places avec les codes sources qui ont été utilisés pour le projet.
+
+Une chaine Youtube à étais créer pour avoir des vidéos de présentation des différents projets. Les liens des vidéos présent dans les différents README du projet lorsque la vidéo permet d'exposer la section. ***Il est donc conseiller de regarder les vidéos lors de la découverte du lien dans les README.***
+
+Lien vers la chaine Youtube : [https://www.youtube.com/@ctf-iot-project](https://www.youtube.com/@ctf-iot-project)
